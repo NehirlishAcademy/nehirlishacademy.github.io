@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Courses | Nehirlish Academy</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='24' fill='%231a1a2e'/><text x='50' y='73' font-family='Georgia,serif' font-style='italic' font-weight='700' font-size='66' fill='%2322d4c8' text-anchor='middle'>N</text></svg>">
+<script>try{var t=localStorage.getItem('nehirlish-theme')||((window.matchMedia&&matchMedia('(prefers-color-scheme: dark)').matches)?'dark':'light');document.documentElement.setAttribute('data-theme',t);}catch(e){document.documentElement.setAttribute('data-theme','light');}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,400;1,9..144,500;1,9..144,600;1,9..144,700&family=Hanken+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#1a1a2e;--ink-2:#232542;--teal:#22d4c8;--teal-deep:#13b3a7;
+    --purple:#6c5ce7;--purple-deep:#5a48d6;--paper:#ffffff;--cream:#fbfaf8;
+    --lilac:#f2effc;--muted:#62627a;--line:rgba(26,26,46,.10);
+    --shadow:0 18px 50px -22px rgba(26,26,46,.28);
+  }
+  html[data-theme="dark"]{
+    --ink:#eceef7;--ink-2:#cfd2e2;--cream:#111019;--paper:#181722;
+    --lilac:#1c1836;--muted:#a7a7c3;--line:rgba(255,255,255,.11);
+    --shadow:0 24px 60px -24px rgba(0,0,0,.7);--purple:#8e7df2;
+  }
+  html[data-theme="dark"] body{background:var(--cream);color:var(--ink)}
+  html[data-theme="dark"] .card{background:var(--paper)}
+  html[data-theme="dark"] .coming-card{background:var(--paper)}
+  html[data-theme="dark"] .lang-toggle{background:rgba(255,255,255,.08)}
+  html[data-theme="dark"] .lang-btn.active{background:var(--teal);color:#04201e}
+  html[data-theme="dark"] .theme-btn{background:rgba(255,255,255,.08)}
+  html[data-theme="dark"] .theme-btn .moon{display:none}
+  html[data-theme="dark"] .theme-btn .sun{display:block}
+  html[data-theme="dark"] footer{background:var(--cream)}
+
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{font-family:'Hanken Grotesk',system-ui,sans-serif;background:var(--cream);color:var(--ink);line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+  .wrap{max-width:820px;margin:0 auto;padding:0 28px}
+  a{color:inherit;text-decoration:none}
+
+  /* TOPBAR */
+  .topbar{padding:26px 0}
+  .topbar-inner{display:flex;align-items:center;justify-content:space-between}
+  .logo{font-family:'Fraunces',serif;font-style:italic;font-weight:600;font-size:1.6rem;letter-spacing:-.02em}
+  .logo .a{color:var(--teal)}.logo .b{color:var(--purple)}
+  .top-right{display:flex;align-items:center;gap:1rem}
+  .back{font-weight:500;font-size:.95rem;color:var(--muted);transition:color .2s}
+  .back:hover{color:var(--teal)}
+  .lang-toggle{display:inline-flex;align-items:center;background:rgba(26,26,46,.06);border-radius:999px;padding:3px;border:1px solid var(--line)}
+  .lang-btn{font-family:'Hanken Grotesk',sans-serif;font-weight:700;font-size:.76rem;letter-spacing:.05em;border:none;background:transparent;color:var(--muted);cursor:pointer;padding:.4em .8em;border-radius:999px;transition:all .2s}
+  .lang-btn.active{background:var(--ink);color:#fff}
+  html[data-theme="dark"] .lang-btn.active{background:var(--teal);color:#04201e}
+  .theme-btn{width:36px;height:36px;border-radius:50%;flex-shrink:0;border:1px solid var(--line);background:rgba(26,26,46,.06);color:var(--ink);display:inline-flex;align-items:center;justify-content:center;cursor:pointer;transition:transform .22s,border-color .22s}
+  .theme-btn:hover{transform:translateY(-2px)}
+  .theme-btn svg{width:16px;height:16px}
+  .theme-btn .sun{display:none}
+
+  /* HERO */
+  .hero{padding:48px 0 40px}
+  .eyebrow{font-size:.72rem;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--muted);display:inline-block;margin-bottom:1rem}
+  .eyebrow .dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--teal);margin-right:.6em;vertical-align:middle}
+  .hero h1{font-family:'Fraunces',serif;font-weight:700;font-size:clamp(2.2rem,6vw,3.4rem);line-height:1.08;letter-spacing:-.02em;margin-bottom:.75rem}
+  .hero h1 em{font-style:italic;color:var(--teal)}
+  .hero p{font-size:1rem;color:var(--muted);max-width:34rem;line-height:1.65}
+
+  /* FREE TEST CARD */
+  .free-card{
+    background:linear-gradient(135deg,var(--ink) 0%,#2a1f5e 100%);
+    border-radius:24px;padding:40px 44px;margin:8px 0 48px;
+    position:relative;overflow:hidden;
+    box-shadow:0 24px 64px -16px rgba(26,26,46,.35);
+  }
+  .free-card::before{
+    content:'';position:absolute;top:-60px;right:-60px;
+    width:280px;height:280px;border-radius:50%;
+    background:radial-gradient(circle,rgba(34,212,200,.18),transparent 70%);
+    pointer-events:none;
+  }
+  .free-card::after{
+    content:'';position:absolute;bottom:-80px;left:-40px;
+    width:240px;height:240px;border-radius:50%;
+    background:radial-gradient(circle,rgba(108,92,231,.2),transparent 70%);
+    pointer-events:none;
+  }
+  .free-badge{display:inline-flex;align-items:center;gap:.4em;font-size:.72rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--teal);background:rgba(34,212,200,.12);border:1px solid rgba(34,212,200,.25);padding:.35em .9em;border-radius:999px;margin-bottom:1.2rem}
+  .free-card h2{font-family:'Fraunces',serif;font-weight:700;font-size:clamp(1.8rem,4vw,2.6rem);line-height:1.1;color:#fff;letter-spacing:-.02em;margin-bottom:.75rem}
+  .free-card h2 em{font-style:italic;color:var(--teal)}
+  .free-card p{font-size:.97rem;color:rgba(255,255,255,.72);max-width:30rem;line-height:1.65;margin-bottom:1.8rem}
+  .free-features{display:flex;flex-wrap:wrap;gap:.6rem;margin-bottom:2rem}
+  .free-feat{font-size:.8rem;font-weight:600;color:rgba(255,255,255,.8);background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);padding:.3em .85em;border-radius:999px}
+  .free-feat.teal{background:rgba(34,212,200,.12);border-color:rgba(34,212,200,.25);color:var(--teal)}
+  .free-cta{display:inline-flex;align-items:center;gap:.5em;font-family:'Hanken Grotesk',sans-serif;font-weight:700;font-size:1rem;padding:.9em 1.8em;border-radius:999px;background:var(--teal);color:var(--ink);border:none;cursor:pointer;transition:transform .22s,background .22s;text-decoration:none;box-shadow:0 8px 24px -8px rgba(34,212,200,.45)}
+  .free-cta:hover{transform:translateY(-2px);background:var(--teal-deep)}
+
+  /* SECTION DIVIDER */
+  .section-head{margin-bottom:24px}
+  .section-eyebrow{font-size:.7rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--teal);margin-bottom:.5rem}
+  .section-title{font-family:'Fraunces',serif;font-weight:600;font-size:1.6rem;letter-spacing:-.01em}
+  .section-title em{font-style:italic;color:var(--purple)}
+  html[data-theme="dark"] .section-title em{color:var(--purple)}
+
+  /* COMING SOON GRID */
+  .coming-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px;margin-bottom:64px}
+  .coming-card{background:var(--paper);border-radius:18px;border:1px solid var(--line);padding:28px 28px 24px;box-shadow:var(--shadow);position:relative;overflow:hidden}
+  .coming-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;border-radius:18px 18px 0 0}
+  .coming-card.sat::before{background:linear-gradient(90deg,var(--purple),var(--teal))}
+  .coming-card.pte::before{background:linear-gradient(90deg,var(--teal),var(--purple))}
+  .coming-card.speaking::before{background:linear-gradient(90deg,#f59e0b,var(--teal))}
+  .coming-tag{display:inline-flex;align-items:center;font-size:.7rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;padding:.28em .75em;border-radius:999px;margin-bottom:1rem}
+  .coming-tag.soon{background:rgba(108,92,231,.1);color:var(--purple)}
+  html[data-theme="dark"] .coming-tag.soon{color:var(--purple)}
+  .coming-card h3{font-family:'Fraunces',serif;font-weight:600;font-size:1.15rem;margin-bottom:.6rem;letter-spacing:-.01em}
+  .coming-card p{font-size:.9rem;color:var(--muted);line-height:1.6;margin-bottom:1.2rem}
+  .coming-list{list-style:none;display:flex;flex-direction:column;gap:.35rem;margin-bottom:1.4rem}
+  .coming-list li{font-size:.85rem;color:var(--ink-2);display:flex;align-items:flex-start;gap:.5em;line-height:1.45}
+  .coming-list li::before{content:"→";color:var(--teal);font-weight:700;flex-shrink:0}
+  .notify-btn{width:100%;padding:.65em 1em;border-radius:999px;border:1.5px solid var(--line);background:transparent;font-family:'Hanken Grotesk',sans-serif;font-weight:600;font-size:.88rem;color:var(--muted);cursor:pointer;transition:border-color .2s,color .2s}
+  .notify-btn:hover{border-color:var(--teal);color:var(--teal)}
+
+  /* BOTTOM NOTE */
+  .bottom-note{text-align:center;padding:0 0 72px;color:var(--muted);font-size:.95rem;line-height:1.6}
+  .bottom-note a{color:var(--teal);font-weight:600}
+  .bottom-note a:hover{text-decoration:underline}
+
+  /* LANG */
+  .lang-section{display:none}
+  .lang-section.active{display:block}
+
+  /* FOOTER */
+  footer{background:var(--cream);padding:42px 0;border-top:1px solid var(--line)}
+  .foot{display:flex;align-items:center;justify-content:space-between;gap:1.5rem;flex-wrap:wrap}
+  .foot .logo{font-size:1.45rem}
+  .foot-copy{color:var(--muted);font-size:.92rem}
+  .foot-social{display:flex;gap:1.5rem}
+  .foot-social a{font-weight:600;font-size:.92rem;color:var(--ink);opacity:.75;transition:opacity .2s,color .2s}
+  .foot-social a:hover{opacity:1;color:var(--teal-deep)}
+
+  @media(max-width:600px){
+    .free-card{padding:28px 24px}
+    .coming-grid{grid-template-columns:1fr}
+    .foot{justify-content:center;text-align:center}
+    .top-right{gap:.6rem}
+  }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <div class="topbar">
+    <div class="topbar-inner">
+      <a href="index.html" class="logo"><span class="a">Nehir</span><span class="b">lish</span><span class="a"> Academy</span></a>
+      <div class="top-right">
+        <div class="lang-toggle" role="group" aria-label="Language">
+          <button class="lang-btn active" data-lang="en">EN</button>
+          <button class="lang-btn" data-lang="tr">TR</button>
+        </div>
+        <button class="theme-btn" id="themeBtn" aria-label="Toggle theme">
+          <svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+          <svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+        </button>
+        <a href="index.html" class="back" data-i18n="back">← Home</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== ENGLISH ===== -->
+<div class="lang-section active" id="en">
+  <div class="wrap">
+
+    <div class="hero">
+      <div class="eyebrow"><span class="dot"></span>Courses & Practice</div>
+      <h1>Learn smarter.<br><em>Score higher.</em></h1>
+      <p>Free practice tests to start, with paid courses coming soon for students who want to go deeper.</p>
+    </div>
+
+    <!-- FREE TEST CARD -->
+    <div class="free-card">
+      <div class="free-badge">✦ Free. No sign-up needed.</div>
+      <h2>SAT Mini <em>Practice Test</em></h2>
+      <p>10 original questions across Reading & Writing and Math. Mixed difficulty. Desmos calculator, formula reference sheet, and full explanations after every answer.</p>
+      <div class="free-features">
+        <span class="free-feat teal">5 Reading & Writing</span>
+        <span class="free-feat teal">5 Math</span>
+        <span class="free-feat">🧮 Desmos calculator</span>
+        <span class="free-feat">📐 Formula reference</span>
+        <span class="free-feat">✏️ Highlight passages</span>
+        <span class="free-feat">⏱ ~10 minutes</span>
+      </div>
+      <a href="sat-practice.html" class="free-cta">Take the free test →</a>
+    </div>
+
+    <!-- COMING SOON -->
+    <div class="section-head">
+      <div class="section-eyebrow">Coming soon</div>
+      <div class="section-title">Paid courses: <em>deeper strategies</em></div>
+    </div>
+
+    <div class="coming-grid">
+      <div class="coming-card sat">
+        <span class="coming-tag soon">Coming soon</span>
+        <h3>SAT Full Prep Course</h3>
+        <p>Everything you need to go from practice test to target score. Structured, clear, and actually useful.</p>
+        <ul class="coming-list">
+          <li>Full SAT question bank (R&W + Math)</li>
+          <li>Section-by-section strategy guides</li>
+          <li>Desmos tactics for Calculator module</li>
+          <li>Vocabulary: prefixes, suffixes, roots</li>
+          <li>Timed mini-tests with scoring</li>
+        </ul>
+        <button class="notify-btn" onclick="notifyMe(this)">Notify me when available</button>
+      </div>
+
+      <div class="coming-card pte">
+        <span class="coming-tag soon">Coming soon</span>
+        <h3>PTE Academic Course</h3>
+        <p>Deep-dive strategies for Speaking and Listening, the modules where I scored a perfect 90.</p>
+        <ul class="coming-list">
+          <li>Speaking: Repeat Sentence, Read Aloud, DI</li>
+          <li>Listening: Summarise Spoken Text, SST</li>
+          <li>Score-band breakdown by question type</li>
+          <li>Practice activities with detailed feedback</li>
+          <li>Real exam pacing strategies</li>
+        </ul>
+        <button class="notify-btn" onclick="notifyMe(this)">Notify me when available</button>
+      </div>
+
+      <div class="coming-card speaking">
+        <span class="coming-tag soon">Coming soon</span>
+        <h3>English Speaking Intensive</h3>
+        <p>For students who want structured self-study between lessons: fluency, pronunciation, and real conversation skills.</p>
+        <ul class="coming-list">
+          <li>Common mistake correction guides</li>
+          <li>Pronunciation: sounds Turkish speakers struggle with</li>
+          <li>Daily speaking prompts + model answers</li>
+          <li>Idioms and advanced vocabulary in context</li>
+        </ul>
+        <button class="notify-btn" onclick="notifyMe(this)">Notify me when available</button>
+      </div>
+    </div>
+
+    <div class="bottom-note">
+      <p>The free content stays free. Always.<br>
+      Paid courses are the only extra. Watch everything on <a href="https://youtube.com/@nehirlish" target="_blank" rel="noopener">YouTube</a> in the meantime.</p>
+    </div>
+
+  </div>
+</div>
+
+<!-- ===== TURKISH ===== -->
+<div class="lang-section" id="tr">
+  <div class="wrap">
+
+    <div class="hero">
+      <div class="eyebrow"><span class="dot"></span>Kurslar & Pratik</div>
+      <h1>Daha akıllı çalış.<br><em>Daha yüksek puan al.</em></h1>
+      <p>Başlamak için ücretsiz pratik testler; daha derine inmek isteyen öğrenciler için yakında ücretli kurslar.</p>
+    </div>
+
+    <!-- FREE TEST CARD -->
+    <div class="free-card">
+      <div class="free-badge">✦ Ücretsiz. Kayıt gerekmez.</div>
+      <h2>SAT Mini <em>Pratik Testi</em></h2>
+      <p>Okuma & Yazma ve Matematik bölümlerinden 10 özgün soru. Karışık zorluk seviyeleri. Desmos hesap makinesi, formül referans sayfası ve her sorunun ardından tam açıklamalar.</p>
+      <div class="free-features">
+        <span class="free-feat teal">5 Okuma & Yazma</span>
+        <span class="free-feat teal">5 Matematik</span>
+        <span class="free-feat">🧮 Desmos hesap makinesi</span>
+        <span class="free-feat">📐 Formül referansı</span>
+        <span class="free-feat">✏️ Metin vurgulama</span>
+        <span class="free-feat">⏱ ~10 dakika</span>
+      </div>
+      <a href="sat-practice.html" class="free-cta">Ücretsiz testi başlat →</a>
+    </div>
+
+    <!-- COMING SOON -->
+    <div class="section-head">
+      <div class="section-eyebrow">Çok yakında</div>
+      <div class="section-title">Ücretli kurslar: <em>daha derin stratejiler</em></div>
+    </div>
+
+    <div class="coming-grid">
+      <div class="coming-card sat">
+        <span class="coming-tag soon">Çok yakında</span>
+        <h3>SAT Tam Hazırlık Kursu</h3>
+        <p>Pratik testten hedef puana ulaşmak için ihtiyacınız olan her şey: yapılandırılmış, net ve gerçekten işe yarar.</p>
+        <ul class="coming-list">
+          <li>Tam SAT soru bankası (O&Y + Matematik)</li>
+          <li>Bölüm bölüm strateji rehberleri</li>
+          <li>Hesap Makinesi modülü için Desmos taktikleri</li>
+          <li>Kelime bilgisi: ön ekler, son ekler, kökler</li>
+          <li>Puanlama ile zamanlı mini testler</li>
+        </ul>
+        <button class="notify-btn" onclick="notifyMe(this)">Hazır olunca haber ver</button>
+      </div>
+
+      <div class="coming-card pte">
+        <span class="coming-tag soon">Çok yakında</span>
+        <h3>PTE Academic Kursu</h3>
+        <p>Konuşma ve Dinleme modülleri için derinlemesine stratejiler. Bu modüllerde mükemmel 90 aldım.</p>
+        <ul class="coming-list">
+          <li>Konuşma: Cümle Tekrarı, Sesli Okuma, DI</li>
+          <li>Dinleme: Sözlü Metni Özetle, SST</li>
+          <li>Soru türüne göre puan bandı analizi</li>
+          <li>Ayrıntılı geri bildirimli pratik etkinlikler</li>
+          <li>Gerçek sınav hızlanma stratejileri</li>
+        </ul>
+        <button class="notify-btn" onclick="notifyMe(this)">Hazır olunca haber ver</button>
+      </div>
+
+      <div class="coming-card speaking">
+        <span class="coming-tag soon">Çok yakında</span>
+        <h3>İngilizce Konuşma Yoğun Kursu</h3>
+        <p>Dersler arasında yapılandırılmış öz çalışma yapmak isteyen öğrenciler için: akıcılık, telaffuz ve gerçek konuşma becerileri.</p>
+        <ul class="coming-list">
+          <li>Yaygın hata düzeltme rehberleri</li>
+          <li>Telaffuz: Türk konuşmacıların zorlandığı sesler</li>
+          <li>Günlük konuşma görevleri ve örnek cevaplar</li>
+          <li>Deyimler ve bağlamda ileri düzey kelime bilgisi</li>
+        </ul>
+        <button class="notify-btn" onclick="notifyMe(this)">Hazır olunca haber ver</button>
+      </div>
+    </div>
+
+    <div class="bottom-note">
+      <p>Ücretsiz içerik her zaman ücretsiz kalır.<br>
+      Ücretli kurslar tek ekstra. Bu arada <a href="https://youtube.com/@nehirlish" target="_blank" rel="noopener">YouTube</a>'daki her şeyi izleyebilirsiniz.</p>
+    </div>
+
+  </div>
+</div>
+
+<footer>
+  <div class="wrap foot">
+    <a href="index.html" class="logo"><span class="a">Nehir</span><span class="b">lish</span><span class="a"> Academy</span></a>
+    <div class="foot-copy" data-i18n="footer_rights">© 2026 Nehirlish Academy. All rights reserved.</div>
+    <div class="foot-social">
+      <a href="https://instagram.com/nehirlish" target="_blank" rel="noopener">Instagram</a>
+      <a href="https://tiktok.com/@nehirlish" target="_blank" rel="noopener">TikTok</a>
+      <a href="https://youtube.com/@nehirlish" target="_blank" rel="noopener">YouTube</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+  const dict = {
+    en: { back:`← Home`, footer_rights:`© 2026 Nehirlish Academy. All rights reserved.` },
+    tr: { back:`← Ana sayfa`, footer_rights:`© 2026 Nehirlish Academy. Tüm hakları saklıdır.` }
+  };
+  const titles = { en:`Courses | Nehirlish Academy`, tr:`Kurslar | Nehirlish Academy` };
+
+  function setLang(lang) {
+    document.querySelectorAll('.lang-section').forEach(el => el.classList.remove('active'));
+    document.getElementById(lang).classList.add('active');
+    document.querySelectorAll('.lang-btn').forEach(b => b.classList.toggle('active', b.dataset.lang === lang));
+    document.documentElement.lang = lang;
+    document.title = titles[lang];
+    const map = dict[lang];
+    document.querySelectorAll('[data-i18n]').forEach(el => { if (map[el.dataset.i18n] !== undefined) el.innerHTML = map[el.dataset.i18n]; });
+  }
+  document.querySelectorAll('.lang-btn').forEach(btn => btn.addEventListener('click', () => setLang(btn.dataset.lang)));
+
+  // Theme
+  document.getElementById('themeBtn').addEventListener('click', () => {
+    const next = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+    document.documentElement.setAttribute('data-theme', next);
+    try { localStorage.setItem('nehirlish-theme', next); } catch(e) {}
+  });
+
+  // Notify button: friendly feedback
+  function notifyMe(btn) {
+    btn.textContent = '✓ We\'ll let you know!';
+    btn.style.borderColor = 'var(--teal)';
+    btn.style.color = 'var(--teal)';
+    btn.disabled = true;
+  }
+</script>
+</body>
+</html>

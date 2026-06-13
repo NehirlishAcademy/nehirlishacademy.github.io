@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Terms of Service | Nehirlish Academy</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='24' fill='%231a1a2e'/><text x='50' y='73' font-family='Georgia,serif' font-style='italic' font-weight='700' font-size='66' fill='%2322d4c8' text-anchor='middle'>N</text></svg>">
+<script>try{var t=localStorage.getItem('nehirlish-theme')||((window.matchMedia&&matchMedia('(prefers-color-scheme: dark)').matches)?'dark':'light');document.documentElement.setAttribute('data-theme',t);}catch(e){document.documentElement.setAttribute('data-theme','light');}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,400;1,9..144,500;1,9..144,600;1,9..144,700&family=Hanken+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#1a1a2e;--ink-2:#232542;--teal:#22d4c8;--teal-deep:#13b3a7;
+    --purple:#6c5ce7;--purple-deep:#5a48d6;--paper:#ffffff;--cream:#fbfaf8;
+    --lilac:#f2effc;--lilac-2:#ebe5fb;--muted:#62627a;
+    --muted-light:rgba(255,255,255,.62);--line:rgba(26,26,46,.10);
+    --shadow:0 18px 50px -22px rgba(26,26,46,.28);
+  }
+  html[data-theme="dark"]{
+    --ink:#eceef7;--ink-2:#cfd2e2;--cream:#111019;--paper:#181722;
+    --lilac:#1c1836;--lilac-2:#2b2550;--muted:#a7a7c3;
+    --line:rgba(255,255,255,.11);--shadow:0 24px 60px -24px rgba(0,0,0,.7);
+    --purple:#8e7df2;--purple-deep:#7b69ec;
+  }
+  html[data-theme="dark"] body{background:var(--cream);color:var(--ink)}
+  html[data-theme="dark"] .topbar-inner{background:rgba(17,16,25,.92)}
+  html[data-theme="dark"] .lang-toggle{background:rgba(255,255,255,.08)}
+  html[data-theme="dark"] .lang-btn.active{background:var(--teal);color:#04201e}
+  html[data-theme="dark"] .theme-btn{background:rgba(255,255,255,.08)}
+  html[data-theme="dark"] .theme-btn .moon{display:none}
+  html[data-theme="dark"] .theme-btn .sun{display:block}
+  html[data-theme="dark"] .card{background:var(--paper)}
+  html[data-theme="dark"] footer{background:var(--cream)}
+
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    font-family:'Hanken Grotesk',system-ui,sans-serif;
+    background:var(--cream);color:var(--ink);
+    line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden;
+  }
+  .wrap{max-width:760px;margin:0 auto;padding:0 28px}
+  a{color:inherit;text-decoration:none}
+
+  /* TOPBAR */
+  .topbar{padding:26px 0}
+  .topbar-inner{display:flex;align-items:center;justify-content:space-between}
+  .logo{font-family:'Fraunces',serif;font-style:italic;font-weight:600;font-size:1.6rem;letter-spacing:-.02em}
+  .logo .a{color:var(--teal)}.logo .b{color:var(--purple)}
+  .top-right{display:flex;align-items:center;gap:1rem}
+  .back{font-weight:500;font-size:.95rem;color:var(--muted);transition:color .2s}
+  .back:hover{color:var(--teal)}
+  .lang-toggle{display:inline-flex;align-items:center;background:rgba(26,26,46,.06);border-radius:999px;padding:3px;border:1px solid var(--line)}
+  .lang-btn{font-family:'Hanken Grotesk',sans-serif;font-weight:700;font-size:.76rem;letter-spacing:.05em;border:none;background:transparent;color:var(--muted);cursor:pointer;padding:.4em .8em;border-radius:999px;transition:all .2s}
+  .lang-btn.active{background:var(--ink);color:#fff}
+  .theme-btn{width:36px;height:36px;border-radius:50%;flex-shrink:0;border:1px solid var(--line);background:rgba(26,26,46,.06);color:var(--ink);display:inline-flex;align-items:center;justify-content:center;cursor:pointer;transition:transform .22s ease,border-color .22s ease}
+  .theme-btn:hover{transform:translateY(-2px);border-color:var(--ink)}
+  .theme-btn svg{width:16px;height:16px}
+  .theme-btn .sun{display:none}
+
+  /* HERO */
+  .hero{padding:52px 0 40px}
+  .eyebrow{font-size:.72rem;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--muted);display:inline-block;margin-bottom:1rem}
+  .eyebrow .dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--teal);margin-right:.6em;vertical-align:middle}
+  h1{font-family:'Fraunces',serif;font-weight:600;font-size:clamp(2.4rem,6vw,3.6rem);line-height:1.08;letter-spacing:-.02em;margin-bottom:1rem}
+  h1 em{font-style:italic;color:var(--teal)}
+  .hero-note{font-size:1rem;color:var(--muted);max-width:36rem;line-height:1.65;margin-bottom:.5rem}
+  .updated{font-size:.85rem;color:var(--muted);opacity:.7;margin-top:.5rem}
+
+  /* CONTENT */
+  .content-wrap{padding:8px 0 80px}
+  .card{background:var(--paper);border-radius:16px;border:1px solid var(--line);padding:32px 36px;margin-bottom:16px;box-shadow:var(--shadow)}
+  .section-label{font-size:.7rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--teal);margin-bottom:.6rem}
+  h2{font-family:'Fraunces',serif;font-weight:600;font-size:1.35rem;margin-bottom:1rem;letter-spacing:-.01em}
+  p{font-size:.97rem;color:var(--ink-2);margin-bottom:.85rem;line-height:1.7}
+  p:last-child{margin-bottom:0}
+  .pill-row{display:flex;flex-wrap:wrap;gap:.5rem;margin:1rem 0}
+  .pill{display:inline-flex;align-items:center;gap:.4em;font-size:.82rem;font-weight:600;padding:.35em .9em;border-radius:999px;background:rgba(34,212,200,.1);color:var(--teal-deep)}
+  .pill.purple{background:rgba(108,92,231,.1);color:var(--purple-deep)}
+  html[data-theme="dark"] .pill.purple{color:var(--purple)}
+  html[data-theme="dark"] .pill{color:var(--teal)}
+  .rule-list{list-style:none;margin:.75rem 0}
+  .rule-list li{padding:.55rem 0;border-bottom:1px solid var(--line);font-size:.95rem;color:var(--ink-2);display:flex;gap:.75rem;line-height:1.5}
+  .rule-list li:last-child{border-bottom:none}
+  .rule-list li::before{content:"·";color:var(--teal);flex-shrink:0;font-weight:700}
+  .contact-card{background:linear-gradient(135deg,rgba(34,212,200,.07),rgba(108,92,231,.07));border:1px solid var(--line);border-radius:16px;padding:32px 36px;text-align:center;margin-top:32px}
+  .contact-card h3{font-family:'Fraunces',serif;font-weight:600;font-size:1.5rem;margin-bottom:.6rem}
+  .contact-card p{color:var(--muted);font-size:.97rem;margin-bottom:.5rem}
+  .contact-card a{color:var(--teal);font-weight:600}
+  .contact-card a:hover{text-decoration:underline}
+
+  /* FOOTER */
+  footer{background:var(--cream);padding:42px 0;border-top:1px solid var(--line)}
+  .foot{display:flex;align-items:center;justify-content:space-between;gap:1.5rem;flex-wrap:wrap}
+  .foot .logo{font-size:1.45rem}
+  .foot-copy{color:var(--muted);font-size:.92rem}
+  .foot-social{display:flex;gap:1.5rem}
+  .foot-social a{font-weight:600;font-size:.92rem;color:var(--ink);opacity:.75;transition:opacity .2s,color .2s}
+  .foot-social a:hover{opacity:1;color:var(--teal-deep)}
+
+  /* LANG SECTIONS */
+  .lang-section{display:none}
+  .lang-section.active{display:block}
+
+  @media(max-width:600px){
+    .card{padding:24px 20px}
+    .contact-card{padding:24px 20px}
+    .foot{justify-content:center;text-align:center}
+    .top-right{gap:.6rem}
+  }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <div class="topbar">
+    <div class="topbar-inner">
+      <a href="index.html" class="logo"><span class="a">Nehir</span><span class="b">lish</span><span class="a"> Academy</span></a>
+      <div class="top-right">
+        <div class="lang-toggle" role="group" aria-label="Language">
+          <button class="lang-btn active" data-lang="en">EN</button>
+          <button class="lang-btn" data-lang="tr">TR</button>
+        </div>
+        <button class="theme-btn" id="themeBtn" aria-label="Toggle theme">
+          <svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+          <svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+        </button>
+        <a href="index.html" class="back" data-i18n="back">← Home</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== ENGLISH ===== -->
+<div class="lang-section active" id="en">
+  <div class="wrap">
+    <div class="hero">
+      <div class="eyebrow"><span class="dot"></span>Legal</div>
+      <h1>Terms of <em>Service</em></h1>
+      <p class="hero-note">These terms apply to all services offered through Nehirlish Academy · 1-on-1 lessons, group classes, PTE prep, SAT prep, and any courses on this website. By booking or purchasing, you agree to these terms.</p>
+      <p class="updated">Last updated: June 2026</p>
+    </div>
+
+    <div class="content-wrap">
+
+      <div class="card">
+        <div class="section-label">01 · Who We Are</div>
+        <h2>About Nehirlish Academy</h2>
+        <p>Nehirlish Academy is an independent English teaching brand operated by Nehir Roza Kılıç, based in Istanbul, Turkey. Services include 1-on-1 English speaking lessons, group speaking classes, PTE Academic preparation, and SAT preparation.</p>
+        <p>For any questions about these terms, contact: <a href="mailto:Nehirlishh@gmail.com" style="color:var(--teal);font-weight:600">Nehirlishh@gmail.com</a></p>
+      </div>
+
+      <div class="card">
+        <div class="section-label">02 · 1-on-1 Lessons</div>
+        <h2>Booking & Cancellation</h2>
+        <p>All 1-on-1 lessons are booked and paid for in advance. Payments are collected before the lesson takes place.</p>
+        <div class="pill-row">
+          <span class="pill">48-hour notice required</span>
+          <span class="pill purple">No late refunds</span>
+        </div>
+        <ul class="rule-list">
+          <li>If you need to cancel or reschedule, notify me at least <strong>48 hours before</strong> your scheduled lesson.</li>
+          <li>Cancellations made less than 48 hours before the lesson are <strong>non-refundable</strong>. The lesson fee will not be returned.</li>
+          <li>If you do not attend without any notice, the full fee is forfeited.</li>
+          <li>If I need to cancel, I will notify you as soon as possible and offer a full reschedule or refund.</li>
+        </ul>
+        <p style="margin-top:1rem">This policy protects consistency and scheduling for both of us · thank you for understanding.</p>
+      </div>
+
+      <div class="card">
+        <div class="section-label">03 · Group Classes</div>
+        <h2>Group Speaking Classes</h2>
+        <p>Group classes open based on demand. Your spot is confirmed upon payment. The same 48-hour cancellation policy applies.</p>
+        <p>If a group class is cancelled by me due to insufficient enrolment or other reasons, all registered students receive a full refund.</p>
+      </div>
+
+      <div class="card">
+        <div class="section-label">04 · Courses</div>
+        <h2>Digital Course Purchases</h2>
+        <p>Digital courses (PTE prep, SAT prep, and any other course content sold on this website) are delivered electronically.</p>
+        <div class="pill-row">
+          <span class="pill purple">No refunds once purchased</span>
+        </div>
+        <p>All course purchases are <strong>final and non-refundable</strong> once access has been granted. Please read the course description carefully before purchasing.</p>
+        <p>If you experience a technical issue preventing access, contact <a href="mailto:Nehirlishh@gmail.com" style="color:var(--teal);font-weight:600">Nehirlishh@gmail.com</a> and I will resolve it promptly.</p>
+      </div>
+
+      <div class="card">
+        <div class="section-label">05 · Intellectual Property</div>
+        <h2>Your Content Rights</h2>
+        <p>All content on this website · written materials, course content, original SAT-style practice questions, PTE practice activities, videos, and all other resources · is created by Nehirlish Academy and protected by copyright.</p>
+        <ul class="rule-list">
+          <li>You may not copy, share, redistribute, resell, or reproduce any course or lesson materials without written permission.</li>
+          <li>You may not record live sessions without my explicit consent.</li>
+          <li>Course access is for personal use only · sharing login credentials or content with others is not permitted.</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <div class="section-label">06 · Your Responsibilities</div>
+        <h2>What We Expect</h2>
+        <ul class="rule-list">
+          <li>Show up to booked lessons on time and prepared.</li>
+          <li>Provide accurate information when booking or registering.</li>
+          <li>Treat sessions with respect. I reserve the right to end a session and decline future bookings if behaviour is inappropriate.</li>
+          <li>Do not misuse or misrepresent any materials provided.</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <div class="section-label">07 · Results</div>
+        <h2>Disclaimer</h2>
+        <p>Nehirlish Academy provides educational support and coaching. While I am committed to giving you the best guidance possible, I cannot guarantee specific exam scores or language outcomes · results depend on individual effort, practice, and circumstances.</p>
+        <p>Testimonials and score results shared on this website are real and represent individual experiences, not guaranteed outcomes.</p>
+      </div>
+
+      <div class="card">
+        <div class="section-label">08 · Privacy</div>
+        <h2>Your Data</h2>
+        <p>Your personal data (name, email, and any information shared during lessons) is handled in accordance with our Privacy Policy and Turkey's KVKK data protection law. We do not share your personal information with third parties.</p>
+      </div>
+
+      <div class="card">
+        <div class="section-label">09 · Changes</div>
+        <h2>Updates to These Terms</h2>
+        <p>These terms may be updated from time to time. The date at the top of this page reflects the most recent revision. Continued use of Nehirlish Academy's services after an update means you accept the revised terms.</p>
+      </div>
+
+      <div class="contact-card">
+        <h3>Questions?</h3>
+        <p>If anything here is unclear, just reach out.</p>
+        <p><a href="mailto:Nehirlishh@gmail.com">Nehirlishh@gmail.com</a></p>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- ===== TURKISH ===== -->
+<div class="lang-section" id="tr">
+  <div class="wrap">
+    <div class="hero">
+      <div class="eyebrow"><span class="dot"></span>Hukuki</div>
+      <h1>Kullanım <em>Koşulları</em></h1>
+      <p class="hero-note">Bu koşullar; birebir dersler, grup dersleri, PTE hazırlık, SAT hazırlık ve bu web sitesindeki tüm kurslar dahil olmak üzere Nehirlish Academy tarafından sunulan tüm hizmetler için geçerlidir: Rezervasyon veya satın alma işlemi yaparak bu koşulları kabul etmiş sayılırsınız.</p>
+      <p class="updated">Son güncelleme: Haziran 2026</p>
+    </div>
+
+    <div class="content-wrap">
+
+      <div class="card">
+        <div class="section-label">01 · Biz Kimiz</div>
+        <h2>Nehirlish Academy Hakkında</h2>
+        <p>Nehirlish Academy, İstanbul, Türkiye merkezli Nehir Roza Kılıç tarafından işletilen bağımsız bir İngilizce öğretim markasıdır. Hizmetler: birebir İngilizce konuşma dersleri, grup konuşma sınıfları, PTE Academic hazırlık ve SAT hazırlık.</p>
+        <p>Bu koşullara ilişkin sorular için: <a href="mailto:Nehirlishh@gmail.com" style="color:var(--teal);font-weight:600">Nehirlishh@gmail.com</a></p>
+      </div>
+
+      <div class="card">
+        <div class="section-label">02 · Birebir Dersler</div>
+        <h2>Rezervasyon ve İptal</h2>
+        <p>Tüm birebir dersler önceden rezerve edilir ve ödeme ders başlamadan önce alınır.</p>
+        <div class="pill-row">
+          <span class="pill">48 saat öncesinden bildirim</span>
+          <span class="pill purple">Geç iptalde iade yok</span>
+        </div>
+        <ul class="rule-list">
+          <li>İptal veya yeniden zamanlama için ders saatinden en az <strong>48 saat önce</strong> bildirimde bulunmanız gerekmektedir.</li>
+          <li>Dersten 48 saatten az önce yapılan iptallerde ücret <strong>iade edilmez</strong>.</li>
+          <li>Herhangi bir bildirim olmaksızın derse katılmamanız durumunda ücretin tamamı iade edilmez.</li>
+          <li>Dersi iptal etmem gerekirse, mümkün olan en kısa sürede bilgi verir; tam iade veya yeniden zamanlama sunarım.</li>
+        </ul>
+        <p style="margin-top:1rem">Bu politika her iki taraf için tutarlılığı ve planlamayı korumak amacıyla oluşturulmuştur · anlayışınız için teşekkür ederim.</p>
+      </div>
+
+      <div class="card">
+        <div class="section-label">03 · Grup Dersleri</div>
+        <h2>Grup Konuşma Sınıfları</h2>
+        <p>Grup dersleri talebe göre açılmaktadır. Yeriniz ödeme alındıktan sonra onaylanır. Aynı 48 saatlik iptal politikası geçerlidir.</p>
+        <p>Yetersiz kayıt veya başka nedenlerle bir grup dersini iptal etmem gerekirse, tüm kayıtlı öğrencilere tam iade yapılır.</p>
+      </div>
+
+      <div class="card">
+        <div class="section-label">04 · Kurslar</div>
+        <h2>Dijital Kurs Satın Alımları</h2>
+        <p>Dijital kurslar (PTE hazırlık, SAT hazırlık ve bu web sitesinde satılan diğer kurs içerikleri) elektronik ortamda sunulmaktadır.</p>
+        <div class="pill-row">
+          <span class="pill purple">Satın alma sonrası iade yapılmaz</span>
+        </div>
+        <p>Erişim sağlandıktan sonra tüm kurs satın alımları <strong>kesindir ve iade edilemez</strong>. Lütfen satın almadan önce kurs açıklamasını dikkatlice okuyunuz.</p>
+        <p>Kursa erişimde teknik bir sorun yaşarsanız <a href="mailto:Nehirlishh@gmail.com" style="color:var(--teal);font-weight:600">Nehirlishh@gmail.com</a> adresinden benimle iletişime geçin; sorunu en kısa sürede çözeceğim.</p>
+      </div>
+
+      <div class="card">
+        <div class="section-label">05 · Fikri Mülkiyet</div>
+        <h2>İçerik Hakları</h2>
+        <p>Bu web sitesindeki tüm içerikler · yazılı materyaller, kurs içerikleri, özgün SAT tarzı alıştırma soruları, PTE alıştırma etkinlikleri, videolar ve diğer tüm kaynaklar · Nehirlish Academy tarafından oluşturulmuştur ve telif hakkıyla korunmaktadır.</p>
+        <ul class="rule-list">
+          <li>Yazılı izin olmaksızın hiçbir kurs veya ders materyalini kopyalayamazsınız, paylaşamazsınız, yeniden dağıtamazsınız, satamazsınız veya çoğaltamazsınız.</li>
+          <li>Açık onayım olmaksızın canlı dersleri kaydedemezsiniz.</li>
+          <li>Kursa erişim yalnızca kişisel kullanım içindir · giriş bilgilerini veya içerikleri başkalarıyla paylaşmak yasaktır.</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <div class="section-label">06 · Sorumluluklarınız</div>
+        <h2>Beklentilerimiz</h2>
+        <ul class="rule-list">
+          <li>Rezerve ettiğiniz derslere zamanında ve hazırlıklı gelin.</li>
+          <li>Rezervasyon veya kayıt sırasında doğru bilgi verin.</li>
+          <li>Derslere saygılı katılın. Uygunsuz davranış durumunda dersi sonlandırma ve gelecekteki rezervasyonları reddetme hakkımı saklı tutarım.</li>
+          <li>Sağlanan materyalleri kötüye kullanmayın veya yanlış temsil etmeyin.</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <div class="section-label">07 · Sonuçlar</div>
+        <h2>Sorumluluk Reddi</h2>
+        <p>Nehirlish Academy eğitim desteği ve koçluk hizmeti sunmaktadır. Mümkün olan en iyi rehberliği sağlamaya kararlı olsam da, belirli sınav puanlarını veya dil sonuçlarını garanti edemem · sonuçlar bireysel çaba, pratik ve koşullara bağlıdır.</p>
+        <p>Bu web sitesinde paylaşılan görüşler ve puan sonuçları gerçektir; bireysel deneyimleri temsil eder, garanti edilen sonuçlar değildir.</p>
+      </div>
+
+      <div class="card">
+        <div class="section-label">08 · Gizlilik</div>
+        <h2>Verileriniz</h2>
+        <p>Kişisel verileriniz (ad, e-posta ve dersler sırasında paylaşılan bilgiler) Gizlilik Politikamız ve Türkiye'nin KVKK kişisel verilerin korunması kanunu çerçevesinde işlenmektedir. Kişisel bilgilerinizi üçüncü taraflarla paylaşmıyoruz.</p>
+      </div>
+
+      <div class="card">
+        <div class="section-label">09 · Değişiklikler</div>
+        <h2>Bu Koşullardaki Güncellemeler</h2>
+        <p>Bu koşullar zaman zaman güncellenebilir. Sayfanın üst kısmındaki tarih en son düzenlemeyi gösterir. Güncelleme sonrasında hizmetleri kullanmaya devam etmeniz, değiştirilen koşulları kabul ettiğiniz anlamına gelir.</p>
+      </div>
+
+      <div class="contact-card">
+        <h3>Sorularınız mı var?</h3>
+        <p>Herhangi bir şey belirsiz geliyorsa, bana ulaşın.</p>
+        <p><a href="mailto:Nehirlishh@gmail.com">Nehirlishh@gmail.com</a></p>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="wrap foot">
+    <a href="index.html" class="logo"><span class="a">Nehir</span><span class="b">lish</span><span class="a"> Academy</span></a>
+    <div class="foot-copy" data-i18n="footer_rights">© 2026 Nehirlish Academy. All rights reserved.</div>
+    <div class="foot-social">
+      <a href="https://instagram.com/nehirlish" target="_blank" rel="noopener">Instagram</a>
+      <a href="https://tiktok.com/@nehirlish" target="_blank" rel="noopener">TikTok</a>
+      <a href="https://youtube.com/@nehirlish" target="_blank" rel="noopener">YouTube</a>
+      <a href="https://www.linkedin.com/in/nehirrozakilic" target="_blank" rel="noopener">LinkedIn</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Language toggle
+  const dict = {
+    en: { back: `← Home`, footer_rights: `© 2026 Nehirlish Academy. All rights reserved.` },
+    tr: { back: `← Ana sayfa`, footer_rights: `© 2026 Nehirlish Academy. Tüm hakları saklıdır.` }
+  };
+  const titles = { en: `Terms of Service | Nehirlish Academy`, tr: `Kullanım Koşulları | Nehirlish Academy` };
+
+  function setLang(lang) {
+    document.querySelectorAll('.lang-section').forEach(el => el.classList.remove('active'));
+    document.getElementById(lang).classList.add('active');
+    document.querySelectorAll('.lang-btn').forEach(b => b.classList.toggle('active', b.dataset.lang === lang));
+    document.documentElement.lang = lang;
+    document.title = titles[lang];
+    const map = dict[lang];
+    document.querySelectorAll('[data-i18n]').forEach(el => { if (map[el.dataset.i18n] !== undefined) el.innerHTML = map[el.dataset.i18n]; });
+  }
+  document.querySelectorAll('.lang-btn').forEach(btn => btn.addEventListener('click', () => setLang(btn.dataset.lang)));
+
+  // Theme toggle
+  const themeBtn = document.getElementById('themeBtn');
+  themeBtn.addEventListener('click', () => {
+    const current = document.documentElement.getAttribute('data-theme');
+    const next = current === 'dark' ? 'light' : 'dark';
+    document.documentElement.setAttribute('data-theme', next);
+    try { localStorage.setItem('nehirlish-theme', next); } catch(e) {}
+  });
+</script>
+</body>
+</html>

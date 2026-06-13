@@ -1,0 +1,894 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nehirlish Academy</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='24' fill='%231a1a2e'/><text x='50' y='73' font-family='Georgia,serif' font-style='italic' font-weight='700' font-size='66' fill='%2322d4c8' text-anchor='middle'>N</text></svg>">
+<script>try{var t=localStorage.getItem('nehirlish-theme')||((window.matchMedia&&matchMedia('(prefers-color-scheme: dark)').matches)?'dark':'light');document.documentElement.setAttribute('data-theme',t);}catch(e){document.documentElement.setAttribute('data-theme','light');}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,400;1,9..144,500;1,9..144,600;1,9..144,700&family=Hanken+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#1a1a2e;
+    --ink-2:#232542;
+    --teal:#22d4c8;
+    --teal-deep:#13b3a7;
+    --purple:#6c5ce7;
+    --purple-deep:#5a48d6;
+    --paper:#ffffff;
+    --cream:#fbfaf8;
+    --lilac:#f2effc;
+    --lilac-2:#ebe5fb;
+    --muted:#62627a;
+    --muted-light:rgba(255,255,255,.62);
+    --line:rgba(26,26,46,.10);
+    --shadow:0 18px 50px -22px rgba(26,26,46,.28);
+    --shadow-sm:0 10px 30px -18px rgba(26,26,46,.32);
+  }
+
+  /* ---------- dark mode ---------- */
+  html[data-theme="dark"]{
+    --ink:#eceef7;
+    --ink-2:#cfd2e2;
+    --cream:#111019;
+    --paper:#181722;
+    --lilac:#1c1836;
+    --lilac-2:#2b2550;
+    --muted:#a7a7c3;
+    --line:rgba(255,255,255,.11);
+    --shadow:0 24px 60px -24px rgba(0,0,0,.7);
+    --shadow-sm:0 12px 34px -18px rgba(0,0,0,.7);
+    --purple:#8e7df2;
+    --purple-deep:#7b69ec;
+  }
+  html[data-theme="dark"] body{background:var(--cream);color:var(--ink)}
+  html[data-theme="dark"] .cred-card,
+  html[data-theme="dark"] .about-card,
+  html[data-theme="dark"] .content,
+  html[data-theme="dark"] .cta-sec,
+  html[data-theme="dark"] .cta-card,
+  html[data-theme="dark"] .quote-card.dark{background:#17162a}
+  html[data-theme="dark"] .btn-light{background:#181722;color:var(--ink);border-color:var(--line)}
+  html[data-theme="dark"] .btn-outline{border-color:rgba(255,255,255,.24);color:var(--ink)}
+  html[data-theme="dark"] .btn-outline:hover{border-color:var(--ink)}
+  html[data-theme="dark"] .btn-dark{background:var(--teal);color:#04201e}
+  html[data-theme="dark"] .btn-dark:hover{background:var(--teal-deep);color:#04201e}
+  html[data-theme="dark"] .svc-card.hot{background:#181722}
+  html[data-theme="dark"] .tnav{background:#181722;color:var(--ink)}
+  html[data-theme="dark"] .lang-toggle{background:rgba(255,255,255,.08)}
+  html[data-theme="dark"] .lang-btn.active{background:var(--teal);color:#04201e}
+  html[data-theme="dark"] .svc-icon.d{background:var(--purple)}
+  html[data-theme="dark"] .pc-dark{background:#0e0d17}
+  html[data-theme="dark"] header{background:rgba(17,16,25,.78)}
+  html[data-theme="dark"] header.scrolled{background:rgba(17,16,25,.92)}
+
+  /* dark mode toggle button */
+  .theme-btn{
+    width:40px;height:40px;border-radius:50%;flex-shrink:0;
+    border:1px solid var(--line);background:rgba(26,26,46,.06);color:var(--ink);
+    display:inline-flex;align-items:center;justify-content:center;cursor:pointer;
+    transition:transform .22s ease,border-color .22s ease,background .22s ease;
+  }
+  .theme-btn:hover{transform:translateY(-2px);border-color:var(--ink)}
+  .theme-btn svg{width:18px;height:18px}
+  .theme-btn .sun{display:none}
+  html[data-theme="dark"] .theme-btn{background:rgba(255,255,255,.08)}
+  html[data-theme="dark"] .theme-btn .moon{display:none}
+  html[data-theme="dark"] .theme-btn .sun{display:block}
+
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    font-family:'Hanken Grotesk',system-ui,sans-serif;
+    background:var(--cream);
+    color:var(--ink);
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  .wrap{max-width:1180px;margin:0 auto;padding:0 28px}
+  section{position:relative}
+
+  h1,h2,h3,h4{font-family:'Fraunces',serif;font-weight:600;line-height:1.04;letter-spacing:-.01em}
+  .eyebrow{
+    font-size:.72rem;font-weight:700;letter-spacing:.22em;text-transform:uppercase;
+    color:var(--muted);display:inline-block;margin-bottom:1.1rem;
+  }
+  .eyebrow.dark{color:rgba(255,255,255,.5)}
+  .eyebrow .dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--teal);margin-right:.6em;vertical-align:middle}
+
+  a{color:inherit;text-decoration:none}
+
+  /* ---------- buttons ---------- */
+  .btn{
+    display:inline-flex;align-items:center;gap:.5em;
+    font-family:'Hanken Grotesk',sans-serif;font-weight:600;font-size:.96rem;
+    padding:.85em 1.5em;border-radius:999px;border:1.5px solid transparent;
+    cursor:pointer;transition:transform .22s ease, background .22s ease, color .22s ease, border-color .22s ease, box-shadow .22s ease;
+    white-space:nowrap;
+  }
+  .btn-dark{background:var(--ink);color:#fff}
+  .btn-dark:hover{transform:translateY(-2px);box-shadow:0 14px 28px -14px rgba(26,26,46,.6)}
+  .btn-teal{background:var(--teal);color:var(--ink)}
+  .btn-teal:hover{transform:translateY(-2px);background:var(--teal-deep);color:#04201e}
+  .btn-light{background:#fff;color:var(--ink);border-color:var(--line)}
+  .btn-light:hover{transform:translateY(-2px);box-shadow:var(--shadow-sm)}
+  .btn-outline{background:transparent;color:var(--ink);border-color:rgba(26,26,46,.22)}
+  .btn-outline:hover{border-color:var(--ink);transform:translateY(-2px)}
+  .btn-ghost{background:transparent;color:var(--ink)}
+  .btn-ghost:hover{color:var(--teal-deep)}
+
+  /* ---------- header ---------- */
+  header{
+    position:sticky;top:0;z-index:60;
+    background:rgba(251,250,248,.78);backdrop-filter:blur(14px);
+    border-bottom:1px solid transparent;transition:border-color .3s ease, background .3s ease;
+  }
+  header.scrolled{border-bottom-color:var(--line);background:rgba(251,250,248,.92)}
+  .nav{display:flex;align-items:center;justify-content:space-between;height:74px}
+  .logo{font-family:'Fraunces',serif;font-style:italic;font-weight:600;font-size:1.7rem;letter-spacing:-.02em;line-height:1}
+  .logo .a{color:var(--teal)}
+  .logo .b{color:var(--purple)}
+  @media(max-width:560px){ .nav .logo{font-size:1.4rem} }
+  .nav-links{display:flex;align-items:center;gap:2.2rem}
+  .nav-links a{font-weight:500;font-size:.97rem;color:var(--ink);opacity:.82;transition:opacity .2s}
+  .nav-links a:hover{opacity:1}
+  .nav-right{display:flex;align-items:center;gap:1rem}
+
+  .lang-toggle{
+    display:inline-flex;align-items:center;background:rgba(26,26,46,.06);
+    border-radius:999px;padding:3px;border:1px solid var(--line);
+  }
+  .lang-btn{
+    font-family:'Hanken Grotesk',sans-serif;font-weight:700;font-size:.78rem;letter-spacing:.05em;
+    border:none;background:transparent;color:var(--muted);cursor:pointer;
+    padding:.4em .85em;border-radius:999px;transition:all .22s ease;
+  }
+  .lang-btn.active{background:var(--ink);color:#fff}
+
+  .menu-btn{display:none;background:none;border:none;cursor:pointer;width:42px;height:42px;border-radius:12px;align-items:center;justify-content:center}
+  .menu-btn span{display:block;width:20px;height:2px;background:var(--ink);position:relative;transition:.25s}
+  .menu-btn span::before,.menu-btn span::after{content:"";position:absolute;left:0;width:20px;height:2px;background:var(--ink);transition:.25s}
+  .menu-btn span::before{top:-6px}.menu-btn span::after{top:6px}
+
+  /* ---------- hero ---------- */
+  .hero{padding:74px 0 90px}
+  .hero-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:64px;align-items:center}
+  .hero h1{font-size:clamp(2.9rem,6.4vw,5rem);margin:.4rem 0 1.6rem}
+  .hero-accent{color:var(--teal);font-style:italic}
+  .hero p{font-size:1.18rem;color:var(--muted);max-width:30rem;margin-bottom:2.2rem}
+  .hero-cta{display:flex;gap:.9rem;flex-wrap:wrap}
+
+  .cred-card{
+    background:var(--ink);color:#fff;border-radius:26px;padding:42px 40px;
+    box-shadow:var(--shadow);position:relative;overflow:hidden;
+  }
+  .cred-card::after{content:"";position:absolute;right:-60px;top:-60px;width:230px;height:230px;border-radius:50%;background:radial-gradient(circle at 30% 30%,rgba(108,92,231,.35),transparent 70%)}
+  .cred-row{display:flex;align-items:center;gap:1.5rem;position:relative;z-index:2}
+  .cred-num{font-family:'Fraunces',serif;font-style:italic;font-weight:600;font-size:5.2rem;line-height:.85}
+  .cred-num.teal{color:var(--teal)}.cred-num.purple{color:#a99bf6}
+  .cred-meta .lbl{font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;color:rgba(255,255,255,.55);font-weight:700}
+  .cred-meta .val{font-size:1.22rem;font-weight:600;margin-top:.2rem}
+  .cred-divider{height:1px;background:rgba(255,255,255,.12);margin:26px 0;position:relative;z-index:2}
+  .cred-note{display:flex;align-items:flex-start;gap:.6em;position:relative;z-index:2;font-size:.95rem;line-height:1.45;color:rgba(255,255,255,.74)}
+  .cred-note .cred-star{color:var(--teal);flex-shrink:0;margin-top:.15em}
+  .cred-note b{color:#fff;font-weight:600}
+  .cred-badge{
+    display:inline-flex;align-items:center;gap:.5em;margin-top:28px;position:relative;z-index:2;
+    background:var(--purple);color:#fff;font-weight:600;font-size:.86rem;
+    padding:.5em 1.05em;border-radius:999px;
+  }
+  .cred-badge .pdot{width:7px;height:7px;border-radius:50%;background:#fff;opacity:.85}
+
+  /* ---------- trust bar ---------- */
+  .trust{background:var(--lilac);border-top:1px solid var(--lilac-2);border-bottom:1px solid var(--lilac-2)}
+  .trust-inner{display:flex;flex-wrap:wrap;justify-content:center;gap:1rem 2.4rem;padding:22px 28px}
+  .trust-item{display:inline-flex;align-items:center;gap:.6em;font-weight:600;font-size:.95rem;color:var(--ink)}
+  .trust-item .d{width:7px;height:7px;border-radius:50%}
+  .trust-item:nth-child(odd) .d{background:var(--teal)}
+  .trust-item:nth-child(even) .d{background:var(--purple)}
+
+  /* ---------- about ---------- */
+  .about{padding:100px 0}
+  .about-grid{display:grid;grid-template-columns:.85fr 1.15fr;gap:64px;align-items:center}
+  .about-card{
+    background:var(--ink);border-radius:26px;aspect-ratio:4/5;position:relative;overflow:hidden;
+    display:flex;align-items:flex-end;padding:34px;box-shadow:var(--shadow);
+  }
+  .about-card::before{content:"";position:absolute;right:-50px;top:60px;width:220px;height:220px;border-radius:50%;background:rgba(255,255,255,.04)}
+  .about-card::after{content:"";position:absolute;left:-70px;bottom:-70px;width:200px;height:200px;border-radius:50%;background:rgba(108,92,231,.18)}
+  .about-card .ac-name{font-family:'Fraunces',serif;font-style:italic;font-size:2.1rem;color:#fff;position:relative;z-index:2;line-height:1}
+  .about-card .ac-role{font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;color:var(--teal);font-weight:700;margin-top:.5rem;position:relative;z-index:2}
+  .about h2{font-size:clamp(2.1rem,4vw,3.1rem);margin-bottom:1.6rem}
+  .accent-purple{color:var(--purple)}
+  .about p{color:var(--muted);font-size:1.08rem;margin-bottom:1.1rem;max-width:34rem}
+  .pills{display:flex;flex-wrap:wrap;gap:.65rem;margin-top:1.8rem}
+  .pill{background:var(--lilac);color:var(--ink);font-weight:600;font-size:.85rem;padding:.5em 1.05em;border-radius:999px;border:1px solid var(--lilac-2)}
+
+  /* ---------- services ---------- */
+  .services{padding:100px 0;background:var(--paper);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+  .svc-head{margin-bottom:3rem}
+  .svc-head h2{font-size:clamp(2.1rem,4vw,3.1rem)}
+  .svc-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1.3rem}
+  .svc-card{
+    background:var(--cream);border:1px solid var(--line);border-radius:22px;padding:34px 30px;
+    transition:transform .25s ease, box-shadow .25s ease;
+  }
+  .svc-card:hover{transform:translateY(-6px);box-shadow:var(--shadow-sm)}
+  .svc-card.hot{border:1.5px solid var(--teal);background:#fff}
+  .svc-icon{width:52px;height:52px;border-radius:14px;display:flex;align-items:center;justify-content:center;margin-bottom:1.6rem}
+  .svc-icon.t{background:rgba(34,212,200,.14)}
+  .svc-icon.d{background:var(--ink)}
+  .svc-icon.p{background:rgba(108,92,231,.14)}
+  .svc-card h3{font-style:italic;font-size:1.5rem;margin-bottom:.7rem}
+  .svc-card p{color:var(--muted);font-size:1rem}
+  .tag-hot{display:inline-block;font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;font-weight:700;color:var(--teal-deep);margin-bottom:.9rem}
+  .svc-extras{margin-top:1.8rem;background:var(--cream);border:1px solid var(--line);border-radius:18px;
+    padding:22px 28px;display:flex;align-items:center;gap:1.4rem 2.2rem;flex-wrap:wrap}
+  .svc-extras-label{font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;font-weight:700;color:var(--muted)}
+  .svc-extras-items{display:flex;gap:1.2rem 2rem;flex-wrap:wrap}
+  .svc-extra{display:inline-flex;align-items:center;gap:.6em;font-weight:600;font-size:.98rem;color:var(--ink)}
+  .svc-extra svg{flex-shrink:0}
+
+  /* ---------- testimonials ---------- */
+  .testi{padding:100px 0}
+  .testi-head{display:flex;justify-content:space-between;align-items:flex-end;gap:1.5rem;margin-bottom:2.4rem}
+  .testi-head h2{font-size:clamp(2.1rem,4vw,3.1rem);margin-bottom:.8rem}
+  .testi-head p{color:var(--muted);font-size:1.08rem;max-width:36rem}
+  .testi-nav{display:flex;gap:.6rem;flex-shrink:0}
+  .tnav{width:46px;height:46px;border-radius:50%;border:1.5px solid var(--line);background:#fff;color:var(--ink);
+    font-size:1.4rem;line-height:1;cursor:pointer;display:flex;align-items:center;justify-content:center;
+    transition:all .2s ease}
+  .tnav:hover:not(:disabled){border-color:var(--ink);transform:translateY(-2px);box-shadow:var(--shadow-sm)}
+  .tnav:disabled{opacity:.3;cursor:default}
+  .testi-track{display:flex;gap:1.5rem;overflow-x:auto;scroll-snap-type:x mandatory;scroll-behavior:smooth;
+    -webkit-overflow-scrolling:touch;scrollbar-width:none;padding:4px 4px 1.2rem}
+  .testi-track::-webkit-scrollbar{display:none}
+  .testi-track .quote-card{flex:0 0 360px;max-width:86vw;scroll-snap-align:start}
+  .quote-card{background:var(--lilac);border-radius:22px;padding:34px 30px;display:flex;flex-direction:column;justify-content:space-between}
+  .quote-card.dark{background:var(--ink);color:#fff}
+  .quote-card .q{font-family:'Fraunces',serif;font-style:italic;font-size:1.22rem;line-height:1.45;margin-bottom:2rem}
+  .quote-card .name{font-weight:700;font-size:1rem;color:var(--purple)}
+  .quote-card.dark .name{color:var(--teal)}
+  .quote-card .meta{font-size:.88rem;color:var(--muted)}
+  .quote-card.dark .meta{color:var(--muted-light)}
+
+  /* ---------- content ---------- */
+  .content{padding:100px 0;background:var(--ink);color:#fff}
+  .content .eyebrow{color:rgba(255,255,255,.5)}
+  .content h2{font-size:clamp(2.1rem,4vw,3.1rem);font-style:italic;margin-bottom:.8rem;color:#fff}
+  .content .lead{color:var(--muted-light);font-size:1.08rem;margin-bottom:3rem;max-width:36rem}
+  .post-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.3rem}
+  .post-card{
+    border-radius:20px;padding:26px 24px;min-height:260px;display:flex;flex-direction:column;justify-content:space-between;
+    text-decoration:none;color:inherit;transition:transform .25s ease, box-shadow .25s ease;
+  }
+  .post-card:hover{transform:translateY(-6px);box-shadow:0 22px 44px -24px rgba(0,0,0,.55)}
+  .post-card .plabel{font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;font-weight:700;opacity:.85}
+  .post-card .phandle-big{font-family:'Fraunces',serif;font-style:italic;font-weight:600;font-size:1.7rem;line-height:1}
+  .post-card .pdesc{font-size:.98rem;opacity:.85;margin-top:.45rem}
+  .post-card .pcta{font-weight:700;font-size:.95rem;margin-top:1.1rem}
+  .post-card:hover .pcta{text-decoration:underline}
+  .pc-teal{background:var(--teal);color:var(--ink)}
+  .pc-purple{background:var(--purple);color:#fff}
+  .pc-dark{background:var(--ink-2);color:#fff;border:1px solid rgba(255,255,255,.12)}
+
+  /* ---------- cta ---------- */
+  .cta-sec{padding:0 0 100px;background:var(--ink)}
+  .cta-card{
+    background:linear-gradient(135deg,#1a1a2e 0%,#22223f 60%,#2a2350 100%);
+    border-radius:30px;padding:80px 40px;text-align:center;position:relative;overflow:hidden;
+    border:1px solid rgba(255,255,255,.07);
+  }
+  .cta-card::before{content:"";position:absolute;left:-80px;top:-80px;width:300px;height:300px;border-radius:50%;background:radial-gradient(circle,rgba(34,212,200,.18),transparent 70%)}
+  .cta-card::after{content:"";position:absolute;right:-80px;bottom:-100px;width:320px;height:320px;border-radius:50%;background:radial-gradient(circle,rgba(108,92,231,.22),transparent 70%)}
+  .cta-card h2{font-size:clamp(2.4rem,5vw,4rem);color:#fff;position:relative;z-index:2;margin-bottom:1.2rem}
+  .cta-accent{color:var(--teal);font-style:italic}
+  .cta-card p{color:var(--muted-light);font-size:1.15rem;position:relative;z-index:2;margin-bottom:2.2rem}
+  .cta-card .btn{position:relative;z-index:2}
+
+  /* ---------- enquiry form ---------- */
+  .enquiry-form{position:relative;z-index:2;max-width:560px;margin:0 auto;text-align:left}
+  .enquiry-form .hp{position:absolute;left:-9999px;opacity:0;height:0;width:0}
+  .form-row{display:flex;gap:.9rem;margin-bottom:.9rem}
+  .form-row > *{flex:1}
+  .enquiry-form input,.enquiry-form select,.enquiry-form textarea{
+    width:100%;font-family:'Hanken Grotesk',sans-serif;font-size:1rem;color:#fff;
+    background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.16);
+    border-radius:14px;padding:.9em 1.1em;margin-bottom:.9rem;transition:border-color .2s, background .2s;
+  }
+  .enquiry-form textarea{resize:vertical;min-height:120px}
+  .enquiry-form input::placeholder,.enquiry-form textarea::placeholder{color:rgba(255,255,255,.5)}
+  .enquiry-form input:focus,.enquiry-form select:focus,.enquiry-form textarea:focus{
+    outline:none;border-color:var(--teal);background:rgba(255,255,255,.09)
+  }
+  .enquiry-form select{appearance:none;cursor:pointer;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%23ffffff' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+    background-repeat:no-repeat;background-position:right 1.1em center}
+  .enquiry-form select option{color:#1a1a2e}
+  .enquiry-form .btn{width:100%;justify-content:center;margin-top:.3rem;font-size:1.02rem;padding:1em}
+  .form-status{margin-top:1rem;text-align:center;font-weight:600;font-size:.96rem;min-height:1.2em}
+  .form-status.ok{color:var(--teal)}
+  .form-status.err{color:#ff9b8a}
+
+  /* ---------- footer ---------- */
+  footer{background:var(--cream);padding:42px 0;border-top:1px solid var(--line)}
+  .foot{display:flex;align-items:center;justify-content:space-between;gap:1.5rem;flex-wrap:wrap}
+  .foot .logo{font-size:1.45rem}
+  .foot-copy{color:var(--muted);font-size:.92rem}
+  .foot-social{display:flex;gap:1.5rem}
+  .foot-social a{font-weight:600;font-size:.92rem;color:var(--ink);opacity:.75;transition:opacity .2s,color .2s}
+  .foot-social a:hover{opacity:1;color:var(--teal-deep)}
+
+  /* ---------- animation ---------- */
+  .reveal{opacity:0;transform:translateY(22px);transition:opacity .7s cubic-bezier(.2,.7,.2,1),transform .7s cubic-bezier(.2,.7,.2,1)}
+  .reveal.in{opacity:1;transform:none}
+
+  /* ---------- responsive ---------- */
+  @media (max-width:900px){
+    .hero-grid,.about-grid{grid-template-columns:1fr;gap:40px}
+    .about-card{aspect-ratio:16/11}
+    .testi-grid,.post-grid{grid-template-columns:1fr}
+    .svc-grid{grid-template-columns:repeat(2,1fr)}
+    .nav-links{
+      position:absolute;top:74px;left:0;right:0;flex-direction:column;align-items:flex-start;
+      gap:0;background:var(--cream);border-bottom:1px solid var(--line);padding:8px 28px 18px;
+      display:none;
+    }
+    .nav-links.open{display:flex}
+    .nav-links a{padding:.7em 0;width:100%;border-bottom:1px solid var(--line);opacity:1}
+    .menu-btn{display:flex}
+    .nav-book{display:none}
+  }
+  @media (max-width:560px){
+    .wrap{padding:0 20px}
+    .post-grid,.svc-grid{grid-template-columns:1fr}
+    .cred-card,.cta-card{padding:34px 26px}
+    .hero{padding:48px 0 64px}
+    .cred-num,.cred-num{font-size:3.4rem}
+    .testi-head{flex-direction:column;align-items:flex-start}
+    .form-row{flex-direction:column;gap:0}
+  }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header id="hdr">
+  <div class="wrap nav">
+    <a href="#" class="logo"><span class="a">Nehir</span><span class="b">lish</span><span class="a"> Academy</span></a>
+    <nav class="nav-links" id="navLinks">
+      <a href="#about" data-i18n="nav_about">About</a>
+      <a href="#services" data-i18n="nav_services">Services</a>
+      <a href="courses.html" data-i18n="nav_courses">Courses</a>
+      <a href="#content" data-i18n="nav_content">Content</a>
+    </nav>
+    <div class="nav-right">
+      <div class="lang-toggle" role="group" aria-label="Language">
+        <button class="lang-btn active" data-lang="en">EN</button>
+        <button class="lang-btn" data-lang="tr">TR</button>
+      </div>
+      <button class="theme-btn" id="themeBtn" type="button" aria-label="Toggle dark mode" title="Toggle dark mode">
+        <svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        <svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
+      </button>
+      <a href="#contact" class="btn btn-outline nav-book" data-i18n="nav_book">Book a lesson</a>
+      <button class="menu-btn" id="menuBtn" aria-label="Menu"><span></span></button>
+    </div>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <span class="eyebrow reveal"><span class="dot"></span><span data-i18n="hero_eyebrow">English Fluency Coach</span></span>
+      <h1 class="reveal" data-i18n="hero_h1">Speak English.<br><span class="hero-accent">Sound brilliant.</span></h1>
+      <p class="reveal" data-i18n="hero_sub">1-on-1 lessons, PTE &amp; SAT prep, and daily speaking tips. For everyone who wants to speak with real confidence.</p>
+      <div class="hero-cta reveal">
+        <a href="#contact" class="btn btn-dark" data-i18n="hero_btn1">Book a lesson</a>
+        <a href="#content" class="btn btn-ghost" data-i18n="hero_btn2">Watch my content →</a>
+      </div>
+    </div>
+    <div class="cred-card reveal">
+      <div class="cred-row">
+        <div class="cred-num teal">90</div>
+        <div class="cred-meta">
+          <div class="lbl" data-i18n="cred_score_label">PTE Overall Score</div>
+          <div class="val" data-i18n="cred_score_sub">Top band achieved</div>
+        </div>
+      </div>
+      <div class="cred-divider"></div>
+      <div class="cred-note">
+        <svg class="cred-star" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.4 6.3L21 9l-5 4.1L17.6 20 12 16.3 6.4 20 8 13.1 3 9l6.6-.7z"/></svg>
+        <span data-i18n="cred_note">A perfect 90 in <b>Speaking &amp; Listening</b>, my specialty.</span>
+      </div>
+      <span class="cred-badge"><span class="pdot"></span><span data-i18n="cred_badge">Nehirlish · PTE Academic certified</span></span>
+    </div>
+  </div>
+</section>
+
+<!-- TRUST BAR -->
+<section class="trust">
+  <div class="trust-inner">
+    <span class="trust-item"><span class="d"></span><span data-i18n="trust_1">PTE Speaking: 90/90</span></span>
+    <span class="trust-item"><span class="d"></span><span data-i18n="trust_2">1-on-1 speaking lessons</span></span>
+    <span class="trust-item"><span class="d"></span><span data-i18n="trust_3">PTE &amp; SAT exam prep</span></span>
+    <span class="trust-item"><span class="d"></span><span data-i18n="trust_4">All levels welcome</span></span>
+    <span class="trust-item"><span class="d"></span><span data-i18n="trust_5">Future: Nehirlish AI</span></span>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section class="about" id="about">
+  <div class="wrap about-grid">
+    <div class="about-card reveal">
+      <div>
+        <div class="ac-name">Nehirlish</div>
+        <div class="ac-role" data-i18n="about_card_role">Your English Fluency Coach</div>
+      </div>
+    </div>
+    <div>
+      <span class="eyebrow reveal" data-i18n="about_eyebrow">About</span>
+      <h2 class="reveal" data-i18n="about_h2">I teach English the <span class="accent-purple">Nehir</span> way.</h2>
+      <p class="reveal" data-i18n="about_p1">I've been teaching English since I was 16, and the years since have turned tutoring from something I did on the side into the thing I do best. I'm bilingual, fully fluent in both English and Turkish, so I know exactly where Turkish speakers get stuck, because I've stood in the same place myself. That's why I can explain things in a way that actually clicks, instead of the stiff textbook way.</p>
+      <p class="reveal" data-i18n="about_p2">My 1-on-1 lessons are built entirely around you: your goals, your pace, and the things you actually find hard. Never a fixed script. I keep it real, not academic: the only exam I prep is PTE (where I scored a perfect 90 in Speaking and Listening myself), and I make SAT tactics as friendly and un-scary as I possibly can. It all points to one thing: speaking with real confidence, not memorising rules.</p>
+      <p class="reveal" data-i18n="about_p3">My favourite students are the ones who arrive convinced they "can't." Watching someone go from that to actually speaking is the whole reason I do this. And the name? Simple: Nehir + English = Nehirlish. I teach English the Nehir way.</p>
+      <div class="pills reveal">
+        <span class="pill" data-i18n="about_pill1">PTE Academic</span>
+        <span class="pill" data-i18n="about_pill2">SAT prep</span>
+        <span class="pill" data-i18n="about_pill3">Daily speaking tips</span>
+        <span class="pill" data-i18n="about_pill4">All ages</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section class="services" id="services">
+  <div class="wrap">
+    <div class="svc-head reveal">
+      <span class="eyebrow" data-i18n="svc_eyebrow">What I Offer</span>
+      <h2 data-i18n="svc_h2">How we can work together</h2>
+    </div>
+    <div class="svc-grid">
+      <div class="svc-card hot reveal">
+        <span class="tag-hot" data-i18n="svc_hot_tag">Most popular</span>
+        <div class="svc-icon t">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#13b3a7" stroke-width="2"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4"/></svg>
+        </div>
+        <h3 data-i18n="svc1_title">Private Tutoring</h3>
+        <p data-i18n="svc1_desc">One-on-one lessons built entirely around you: your goals, your level, and the things you actually find hard. Focused on fluency, pronunciation, and confidence.</p>
+      </div>
+      <div class="svc-card reveal">
+        <div class="svc-icon d">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#22d4c8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        </div>
+        <h3 data-i18n="svc2_title">Group Speaking Classes</h3>
+        <p data-i18n="svc2_desc">1.5-hour live speaking sessions online, in small groups. A more affordable way to practise out loud. Opening based on demand, so register your interest.</p>
+      </div>
+      <div class="svc-card reveal">
+        <div class="svc-icon t">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#13b3a7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/></svg>
+        </div>
+        <h3 data-i18n="svc4_title">PTE Prep &amp; Tactics</h3>
+        <p data-i18n="svc4_desc">PTE Academic strategies for Speaking and Listening, where I scored a perfect 90. Free tactics on my YouTube now, with exclusive course materials in the works.</p>
+      </div>
+      <div class="svc-card reveal">
+        <div class="svc-icon p">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#6c5ce7" stroke-width="2" stroke-linejoin="round"><path d="M12 3l9 9-9 9-9-9z"/></svg>
+        </div>
+        <h3 data-i18n="svc3_title">SAT Prep &amp; Tactics</h3>
+        <p data-i18n="svc3_desc">Friendly, structured SAT prep: vocabulary (prefixes and suffixes), Reading and Writing tactics, grammar, and Desmos strategies for Math. Short vocab videos coming soon.</p>
+      </div>
+    </div>
+    <div class="svc-extras reveal">
+      <span class="svc-extras-label" data-i18n="svc_extras_label">Included with every student</span>
+      <div class="svc-extras-items">
+        <span class="svc-extra">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#13b3a7" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+          <span data-i18n="svc_extra_1">A personalised weekly digital study plan</span>
+        </span>
+        <span class="svc-extra">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#13b3a7" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+          <span data-i18n="svc_extra_2">A score tracker for your mock-exam results</span>
+        </span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="testi">
+  <div class="wrap">
+    <div class="testi-head reveal">
+      <div>
+        <span class="eyebrow" data-i18n="test_eyebrow">Student Results</span>
+        <h2 data-i18n="test_h2">What students say</h2>
+        <p data-i18n="test_sub">Real feedback from real students, straight from Superprof.</p>
+      </div>
+      <div class="testi-nav">
+        <button class="tnav prev" id="testiPrev" aria-label="Previous reviews">&#8249;</button>
+        <button class="tnav next" id="testiNext" aria-label="Next reviews">&#8250;</button>
+      </div>
+    </div>
+    <div class="testi-track" id="testiTrack">
+      <div class="quote-card reveal">
+        <div class="q" data-i18n="test1_q">"A successful teacher who is clearly well-trained despite her young age. She explains everything fluently and beautifully. I would recommend her to anyone wanting to learn English, young or adult. I am very happy."</div>
+        <div>
+          <div class="name" data-i18n="test1_name">S. K.</div>
+          <div class="meta" data-i18n="test1_meta">Superprof</div>
+        </div>
+      </div>
+      <div class="quote-card dark reveal">
+        <div class="q" data-i18n="test2_q">"Nehir is an incredibly dedicated and hard-working teacher. She is bilingual, with both English and Turkish as native languages, which makes her a brilliant guide for learning. It is hard to find a tutor in Turkey who is native in both. She is not a classic language teacher either; she is more of an English fluency coach. Her techniques, methods, and digital teaching make her genuinely effective. I highly recommend her."</div>
+        <div>
+          <div class="name" data-i18n="test2_name">D. E.</div>
+          <div class="meta" data-i18n="test2_meta">Superprof</div>
+        </div>
+      </div>
+      <div class="quote-card reveal">
+        <div class="q" data-i18n="test3_q">"I started lessons to improve my English. I was really nervous and stressed in my first lesson, but the moment she saw how tense I was, she put me at ease and I had so much fun. I will definitely continue."</div>
+        <div>
+          <div class="name" data-i18n="test3_name">E. S.</div>
+          <div class="meta" data-i18n="test3_meta">Superprof</div>
+        </div>
+      </div>
+      <div class="quote-card dark reveal">
+        <div class="q" data-i18n="test4_q">"I know Nehir from her English speaking lessons. She teaches entirely in English and uses the language fluently, clearly, and effectively. She doesn't just pass on information; she makes every session engaging and genuinely motivating. She breaks down even the difficult points and explains them with real examples, which makes it far easier to speak with confidence."</div>
+        <div>
+          <div class="name" data-i18n="test4_name">N. T.</div>
+          <div class="meta" data-i18n="test4_meta">Superprof</div>
+        </div>
+      </div>
+      <div class="quote-card reveal">
+        <div class="q" data-i18n="test5_q">"With her jokes, little activities, and warm approach, she always keeps students engaged. She gives students the courage to speak English and encourages them to take part, and because she corrects mistakes constructively, the whole process feels relaxed and enjoyable. I definitely recommend Nehir to Superprof members: she is knowledgeable in her field and an understanding, motivating teacher who builds students' confidence. Her lessons are both educational and genuinely fun."</div>
+        <div>
+          <div class="name" data-i18n="test5_name">A. K.</div>
+          <div class="meta" data-i18n="test5_meta">Superprof</div>
+        </div>
+      </div>
+      <div class="quote-card dark reveal">
+        <div class="q" data-i18n="test6_q">"I found Nehir on Instagram, where she shares really valuable and fun English content, plus free resources on her website made just for us. After meeting her, my whole perspective on English changed: instead of memorized patterns, we have conversations that actually work in real life, and every lesson is planned around my level. Forget boring classic lessons; she is one of those rare teachers I laugh with, feel relaxed with, and leave motivated. I recommend her wholeheartedly."</div>
+        <div>
+          <div class="name" data-i18n="test6_name">Anonymous</div>
+          <div class="meta" data-i18n="test6_meta">Superprof</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTENT -->
+<section class="content" id="content">
+  <div class="wrap">
+    <span class="eyebrow reveal" data-i18n="content_eyebrow">Free Content</span>
+    <h2 class="reveal" data-i18n="content_h2">Free lessons, every week</h2>
+    <p class="lead reveal" data-i18n="content_sub">Speaking tips, daily English, and full PTE & SAT tactics, all free. My YouTube goes deep on PTE and SAT, so follow @nehirlish everywhere, like, and subscribe to support my journey!</p>
+    <div class="post-grid">
+      <a class="post-card pc-teal reveal" href="https://instagram.com/nehirlish" target="_blank" rel="noopener">
+        <span class="plabel" data-i18n="c1_label">Instagram</span>
+        <div class="pfoot">
+          <div class="phandle-big">@nehirlish</div>
+          <div class="pdesc" data-i18n="c1_desc">Daily speaking tips &amp; reels</div>
+          <div class="pcta" data-i18n="c1_cta">Follow →</div>
+        </div>
+      </a>
+      <a class="post-card pc-dark reveal" href="https://tiktok.com/@nehirlish" target="_blank" rel="noopener">
+        <span class="plabel" data-i18n="c2_label">TikTok</span>
+        <div class="pfoot">
+          <div class="phandle-big">@nehirlish</div>
+          <div class="pdesc" data-i18n="c2_desc">Quick English &amp; vocab videos</div>
+          <div class="pcta" data-i18n="c2_cta">Follow →</div>
+        </div>
+      </a>
+      <a class="post-card pc-purple reveal" href="https://youtube.com/@nehirlish" target="_blank" rel="noopener">
+        <span class="plabel" data-i18n="c3_label">YouTube</span>
+        <div class="pfoot">
+          <div class="phandle-big">@nehirlish</div>
+          <div class="pdesc" data-i18n="c3_desc">Full PTE &amp; SAT tactics, all free</div>
+          <div class="pcta" data-i18n="c3_cta">Subscribe →</div>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ENQUIRY / CONTACT -->
+<section class="cta-sec" id="contact">
+  <div class="wrap">
+    <div class="cta-card reveal">
+      <h2 data-i18n="cta_h2">Ready to speak<br><span class="cta-accent">with confidence?</span></h2>
+      <p data-i18n="cta_sub">Send me a message and I'll get back to you by email. Tell me what you're working on and we'll take it from there.</p>
+
+      <form class="enquiry-form" id="enquiryForm" action="https://formsubmit.co/nehirlishh@gmail.com" method="POST">
+        <!-- Enquiries are emailed to nehirlishh@gmail.com via FormSubmit (free, no account needed) -->
+        <input type="hidden" name="_subject" value="New enquiry from the Nehirlish website">
+        <input type="hidden" name="_template" value="table">
+        <input type="hidden" name="_captcha" value="false">
+        <input type="text" name="_honey" class="hp" tabindex="-1" autocomplete="off">
+
+        <div class="form-row">
+          <input type="text" name="name" required data-i18n-ph="form_name_ph" placeholder="Your name">
+          <input type="email" name="email" required data-i18n-ph="form_email_ph" placeholder="Your email">
+        </div>
+        <select name="topic" required>
+          <option value="" disabled selected data-i18n="form_topic_default">What can I help with?</option>
+          <option data-i18n="form_topic_1">PTE prep</option>
+          <option data-i18n="form_topic_2">SAT prep</option>
+          <option data-i18n="form_topic_3">1-on-1 speaking lessons</option>
+          <option data-i18n="form_topic_4">Just saying hi / something else</option>
+        </select>
+        <textarea name="message" rows="4" required data-i18n-ph="form_msg_ph" placeholder="What would you like help with? Tell me a little about your goals."></textarea>
+        <button type="submit" class="btn btn-teal" data-i18n="form_btn">Send message</button>
+        <div class="form-status" id="formStatus" role="status"></div>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="wrap foot">
+    <a href="#" class="logo"><span class="a">Nehir</span><span class="b">lish</span><span class="a"> Academy</span></a>
+    <div class="foot-copy">
+      <span data-i18n="footer_rights">© 2026 Nehirlish Academy. All rights reserved.</span>
+      <span style="margin:0 .5em;opacity:.4">·</span>
+      <a href="terms.html" data-i18n="footer_tos" style="color:var(--muted);font-size:.92rem;transition:color .2s" onmouseover="this.style.color='var(--teal)'" onmouseout="this.style.color='var(--muted)'">Terms of Service</a>
+      <span style="margin:0 .5em;opacity:.4">·</span>
+      <a href="privacy.html" data-i18n="footer_privacy" style="color:var(--muted);font-size:.92rem;transition:color .2s" onmouseover="this.style.color='var(--teal)'" onmouseout="this.style.color='var(--muted)'">Privacy Policy</a>
+    </div>
+    <div class="foot-social">
+      <a href="https://instagram.com/nehirlish" target="_blank" rel="noopener">Instagram</a>
+      <a href="https://tiktok.com/@nehirlish" target="_blank" rel="noopener">TikTok</a>
+      <a href="https://youtube.com/@nehirlish" target="_blank" rel="noopener">YouTube</a>
+      <a href="https://www.linkedin.com/in/nehirrozakilic" target="_blank" rel="noopener">LinkedIn</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+  const dict = {
+    en: {
+      nav_about:`About`, nav_services:`Services`, nav_courses:`Courses`, nav_content:`Content`, nav_book:`Book a lesson`,
+      hero_eyebrow:`English Fluency Coach`,
+      hero_h1:`Speak English.<br><span class="hero-accent">Sound brilliant.</span>`,
+      hero_sub:`1-on-1 lessons, PTE & SAT prep, and daily speaking tips. For everyone who wants to speak with real confidence.`,
+      hero_btn1:`Book a lesson`, hero_btn2:`Watch my content →`,
+      cred_score_label:`PTE Overall Score`, cred_score_sub:`Top band achieved`,
+      cred_note:`A perfect 90 in <b>Speaking &amp; Listening</b>, my specialty.`,
+      cred_badge:`Nehirlish · PTE Academic certified`,
+      trust_1:`PTE Speaking: 90/90`, trust_2:`1-on-1 speaking lessons`, trust_3:`PTE & SAT exam prep`, trust_4:`All levels welcome`, trust_5:`Future: Nehirlish AI`,
+      about_eyebrow:`About`, about_card_role:`Your English Fluency Coach`,
+      about_h2:`I teach English the <span class="accent-purple">Nehir</span> way.`,
+      about_p1:`I've been teaching English since I was 16, and the years since have turned tutoring from something I did on the side into the thing I do best. I'm bilingual, fully fluent in both English and Turkish, so I know exactly where Turkish speakers get stuck, because I've stood in the same place myself. That's why I can explain things in a way that actually clicks, instead of the stiff textbook way.`,
+      about_p2:`My 1-on-1 lessons are built entirely around you: your goals, your pace, and the things you actually find hard. Never a fixed script. I keep it real, not academic: the only exam I prep is PTE (where I scored a perfect 90 in Speaking and Listening myself), and I make SAT tactics as friendly and un-scary as I possibly can. It all points to one thing: speaking with real confidence, not memorising rules.`,
+      about_p3:`My favourite students are the ones who arrive convinced they "can't." Watching someone go from that to actually speaking is the whole reason I do this. And the name? Simple: Nehir + English = Nehirlish. I teach English the Nehir way.`,
+      about_pill1:`PTE Academic`, about_pill2:`SAT prep`, about_pill3:`Daily speaking tips`, about_pill4:`All ages`,
+      svc_eyebrow:`What I Offer`, svc_h2:`How we can work together`, svc_hot_tag:`Most popular`,
+      svc1_title:`Private Tutoring`,
+      svc1_desc:`One-on-one lessons built entirely around you: your goals, your level, and the things you actually find hard. Focused on fluency, pronunciation, and confidence.`,
+      svc2_title:`Group Speaking Classes`,
+      svc2_desc:`1.5-hour live speaking sessions online, in small groups. A more affordable way to practise out loud. Opening based on demand, so register your interest.`,
+      svc3_title:`SAT Prep & Tactics`,
+      svc3_desc:`Friendly, structured SAT prep: vocabulary (prefixes and suffixes), Reading and Writing tactics, grammar, and Desmos strategies for Math. Short vocab videos coming soon.`,
+      svc4_title:`PTE Prep & Tactics`,
+      svc4_desc:`PTE Academic strategies for Speaking and Listening, where I scored a perfect 90. Free tactics on my YouTube now, with exclusive course materials in the works.`,
+      svc_extras_label:`Included with every student`,
+      svc_extra_1:`A personalised weekly digital study plan`,
+      svc_extra_2:`A score tracker for your mock-exam results`,
+      test_eyebrow:`Student Results`, test_h2:`What students say`,
+      test_sub:`Real feedback from real students, straight from Superprof.`,
+      test1_q:`"A successful teacher who is clearly well-trained despite her young age. She explains everything fluently and beautifully. I would recommend her to anyone wanting to learn English, young or adult. I am very happy."`,
+      test1_name:`S. K.`, test1_meta:`Superprof`,
+      test2_q:`"Nehir is an incredibly dedicated and hard-working teacher. She is bilingual, with both English and Turkish as native languages, which makes her a brilliant guide for learning. It is hard to find a tutor in Turkey who is native in both. She is not a classic language teacher either; she is more of an English fluency coach. Her techniques, methods, and digital teaching make her genuinely effective. I highly recommend her."`,
+      test2_name:`D. E.`, test2_meta:`Superprof`,
+      test3_q:`"I started lessons to improve my English. I was really nervous and stressed in my first lesson, but the moment she saw how tense I was, she put me at ease and I had so much fun. I will definitely continue."`,
+      test3_name:`E. S.`, test3_meta:`Superprof`,
+      test4_q:`"I know Nehir from her English speaking lessons. She teaches entirely in English and uses the language fluently, clearly, and effectively. She doesn't just pass on information; she makes every session engaging and genuinely motivating. She breaks down even the difficult points and explains them with real examples, which makes it far easier to speak with confidence."`,
+      test4_name:`N. T.`, test4_meta:`Superprof`,
+      test5_q:`"With her jokes, little activities, and warm approach, she always keeps students engaged. She gives students the courage to speak English and encourages them to take part, and because she corrects mistakes constructively, the whole process feels relaxed and enjoyable. I definitely recommend Nehir to Superprof members: she is knowledgeable in her field and an understanding, motivating teacher who builds students' confidence. Her lessons are both educational and genuinely fun."`,
+      test5_name:`A. K.`, test5_meta:`Superprof`,
+      test6_q:`"I found Nehir on Instagram, where she shares really valuable and fun English content, plus free resources on her website made just for us. After meeting her, my whole perspective on English changed: instead of memorized patterns, we have conversations that actually work in real life, and every lesson is planned around my level. Forget boring classic lessons; she is one of those rare teachers I laugh with, feel relaxed with, and leave motivated. I recommend her wholeheartedly."`,
+      test6_name:`Anonymous`, test6_meta:`Superprof`,
+      content_eyebrow:`Free Content`, content_h2:`Free lessons, every week`,
+      content_sub:`Speaking tips, daily English, and full PTE & SAT tactics, all free. My YouTube goes deep on PTE and SAT, so follow @nehirlish everywhere, like, and subscribe to support my journey!`,
+      c1_label:`Instagram`, c1_desc:`Daily speaking tips & reels`, c1_cta:`Follow →`,
+      c2_label:`TikTok`, c2_desc:`Quick English & vocab videos`, c2_cta:`Follow →`,
+      c3_label:`YouTube`, c3_desc:`Full PTE & SAT tactics, all free`, c3_cta:`Subscribe →`,
+      cta_h2:`Ready to speak<br><span class="cta-accent">with confidence?</span>`,
+      cta_sub:`Send me a message and I'll get back to you by email. Tell me what you're working on and we'll take it from there.`,
+      form_name_ph:`Your name`, form_email_ph:`Your email`,
+      form_topic_default:`What can I help with?`,
+      form_topic_1:`PTE prep`, form_topic_2:`SAT prep`, form_topic_3:`1-on-1 speaking lessons`, form_topic_4:`Just saying hi / something else`,
+      form_msg_ph:`What would you like help with? Tell me a little about your goals.`,
+      form_btn:`Send message`,
+      form_success:`Thanks! Your message is on its way. I'll reply by email soon.`,
+      form_error:`Something went wrong. Please try again, or email me directly.`,
+      footer_rights:`© 2026 Nehirlish Academy. All rights reserved.`,
+      footer_tos:`Terms of Service`,
+      footer_privacy:`Privacy Policy`
+    },
+    tr: {
+      nav_about:`Hakkımda`, nav_services:`Hizmetler`, nav_courses:`Kurslar`, nav_content:`İçerik`, nav_book:`Ders Al`,
+      hero_eyebrow:`İngilizce Akıcılık Koçu`,
+      hero_h1:`İngilizce konuş.<br><span class="hero-accent">Etkileyici ol.</span>`,
+      hero_sub:`Birebir dersler, PTE & SAT hazırlığı ve her gün konuşma ipuçları. Gerçek bir özgüvenle konuşmak isteyen herkes için.`,
+      hero_btn1:`Ders Al`, hero_btn2:`İçeriğimi İzle →`,
+      cred_score_label:`PTE Genel Puanı`, cred_score_sub:`En yüksek seviye`,
+      cred_note:`<b>Konuşma ve Dinleme</b>'de tam 90, benim uzmanlık alanım.`,
+      cred_badge:`Nehirlish · PTE Academic sertifikalı`,
+      trust_1:`PTE Konuşma: 90/90`, trust_2:`Birebir konuşma dersleri`, trust_3:`PTE & SAT sınav hazırlığı`, trust_4:`Her seviyeye uygun`, trust_5:`Yakında: Nehirlish AI`,
+      about_eyebrow:`Hakkımda`, about_card_role:`İngilizce Akıcılık Koçun`,
+      about_h2:`İngilizceyi <span class="accent-purple">Nehir</span> usulü öğretiyorum.`,
+      about_p1:`İngilizce öğretmeye 16 yaşımda başladım ve o günden bu yana geçen yıllar, özel ders vermeyi bir yan uğraştan en iyi yaptığım işe dönüştürdü. İki dilliyim, hem İngilizceye hem Türkçeye tamamen hâkimim, bu yüzden Türkçe konuşanların tam olarak nerede zorlandığını biliyorum, çünkü ben de aynı yerden geçtim. İşte bu yüzden her şeyi kitabi ve kalıplaşmış bir dille değil, gerçekten kafana oturacak şekilde anlatabiliyorum.`,
+      about_p2:`Birebir derslerim tamamen sana göre kurgulanır: hedeflerine, hızına ve asıl zorlandığın konulara göre. Asla sabit bir kalıba göre değil. İşi akademik değil, gerçekçi tutarım. Hazırlığını yaptığım tek sınav PTE (Konuşma ve Dinleme'de tam puan, yani 90 aldım), SAT taktiklerini ise olabildiğince samimi ve korkutucu olmayan bir şekilde anlatıyorum. Hepsi tek bir şeye çıkıyor: kuralları ezberlemek değil, gerçek bir özgüvenle konuşmak.`,
+      about_p3:`En sevdiğim öğrenciler, "ben yapamam" diyerek gelenler. Birinin o noktadan gerçekten konuşur hâle gelişini izlemek, bu işi yapmamın asıl sebebi. Peki ya isim? Çok basit: Nehir + English = Nehirlish. İngilizceyi Nehir usulü öğretiyorum.`,
+      about_pill1:`PTE Academic`, about_pill2:`SAT hazırlığı`, about_pill3:`Günlük konuşma ipuçları`, about_pill4:`Her yaşa uygun`,
+      svc_eyebrow:`Neler Sunuyorum`, svc_h2:`Birlikte nasıl çalışabiliriz`, svc_hot_tag:`En çok tercih edilen`,
+      svc1_title:`Birebir Özel Ders`,
+      svc1_desc:`Tamamen sana göre kurgulanan birebir dersler: hedeflerin, seviyen ve asıl zorlandığın konular. Akıcılığa, telaffuza ve özgüvene odaklı.`,
+      svc2_title:`Grup Konuşma Dersleri`,
+      svc2_desc:`Küçük gruplarla online, 1,5 saatlik canlı konuşma dersleri. Sesli pratik yapmanın daha uygun fiyatlı yolu. Talebe göre açılıyor, ilgini bildir yeter.`,
+      svc3_title:`SAT Hazırlığı & Taktikleri`,
+      svc3_desc:`Samimi ve düzenli SAT hazırlığı: kelime bilgisi (ön ekler ve son ekler), Reading & Writing taktikleri, gramer ve Matematik için Desmos taktikleri. Kısa kelime videoları çok yakında.`,
+      svc4_title:`PTE Hazırlığı & Taktikleri`,
+      svc4_desc:`Tam puan (90) aldığım Konuşma ve Dinleme başta olmak üzere PTE Academic stratejileri. YouTube'da ücretsiz taktikler şimdiden var; özel PTE ders materyalleri ise hazırlanıyor.`,
+      svc_extras_label:`Her öğrenciye dahil`,
+      svc_extra_1:`Kişiselleştirilmiş haftalık dijital çalışma planı`,
+      svc_extra_2:`Deneme sınavı sonuçların için not takipçisi`,
+      test_eyebrow:`Öğrenci Sonuçları`, test_h2:`Öğrenciler ne diyor`,
+      test_sub:`Gerçek öğrencilerden gerçek yorumlar, doğrudan Superprof'tan.`,
+      test1_q:`"Genç yaşta iyi eğitim almış, başarılı bir öğretmen. Anlatımı akıcı ve güzel. İngilizce eğitimi almak isteyen genç, yetişkin herkese tavsiye ederim. Ben çok memnun kaldım."`,
+      test1_name:`S. K.`, test1_meta:`Superprof`,
+      test2_q:`"Nehir hoca çok azimli ve çalışkan bir eğitmen. Kendisi çift dilli; hem İngilizcesi hem de Türkçesi ana dili olduğu için dil öğretiminde çok iyi bir yol gösterici. Türkiye'de ana dili hem İngilizce hem de Türkçe olan bir dil eğitmeni bulmak zor. Ayrıca klasik bir dil eğitmeni değil, onun ötesinde bir İngilizce dil eğitim koçu. Teknikleri, yöntemleri ve dijital okul yazarlığıyla çok etkili. Kesinlikle tavsiye ediyorum."`,
+      test2_name:`D. E.`, test2_meta:`Superprof`,
+      test3_q:`"İngilizcemi geliştirmek için başlamıştım. İlk dersimi aldığımda çok gergin ve stresliydim ama gergin olduğumu görünce beni çok rahatlattı ve derste çok eğlendim. Kesinlikle devam edeceğim."`,
+      test3_name:`E. S.`, test3_meta:`Superprof`,
+      test4_q:`"Nehir Hoca'yı İngilizce konuşma derslerinden tanıyorum. Bütün dersleri İngilizce işliyor ve dili son derece akıcı, anlaşılır ve etkili bir şekilde kullanıyor. Sadece bilgi aktarmakla kalmıyor; her dersi ilgi çekici ve gerçekten motive edici hâle getiriyor. Zor noktaları bile sadeleştirip gerçek örneklerle açıkladığı için kendine güvenerek konuşmak çok daha kolay oluyor."`,
+      test4_name:`N. T.`, test4_meta:`Superprof`,
+      test5_q:`"Derste yaptığı espriler, küçük aktiviteler ve samimi yaklaşımıyla öğrencilerin ilgisini hep canlı tutuyor. Öğrencilere İngilizce konuşma konusunda cesaret veriyor, onları katılıma teşvik ediyor ve hataları yapıcı bir şekilde düzelttiği için öğrenme süreci daha rahat ve keyifli geçiyor. Nehir Hoca'yı Superprof üyelerine kesinlikle tavsiye ederim; hem alanında bilgili hem de öğrencilerine güven veren, anlayışlı ve motive edici bir öğretmen. Dersleri hem öğretici hem de gerçekten keyifli."`,
+      test5_name:`A. K.`, test5_meta:`Superprof`,
+      test6_q:`"Nehir ile Instagram'dan tanıştım; orada İngilizceye dair çok değerli ve eğlenceli içerikler, web sitesinde de bizim için hazırladığı ücretsiz kaynaklar paylaşıyor. Tanıştıktan sonra İngilizceye bakışım tamamen değişti: ezber kalıplar yerine gerçek hayatta işe yarayan konuşmalar yapıyoruz ve her ders seviyeme göre özel planlanıyor. Sıkıcı klasik dersleri unutun; öğrenirken güldüğüm, rahat hissettiğim ve motive olduğum nadir öğretmenlerden biri. Gönül rahatlığıyla tavsiye ediyorum."`,
+      test6_name:`İsimsiz`, test6_meta:`Superprof`,
+      content_eyebrow:`Ücretsiz İçerik`, content_h2:`Her hafta ücretsiz dersler`,
+      content_sub:`Konuşma ipuçları, günlük İngilizce ve tüm PTE & SAT taktikleri, hepsi ücretsiz. YouTube'da özellikle PTE ve SAT'a ağırlık veriyorum; @nehirlish'i takip et, beğen ve abone olarak bu yolculukta bana destek ol!`,
+      c1_label:`Instagram`, c1_desc:`Günlük konuşma ipuçları ve reels`, c1_cta:`Takip et →`,
+      c2_label:`TikTok`, c2_desc:`Kısa İngilizce ve kelime videoları`, c2_cta:`Takip et →`,
+      c3_label:`YouTube`, c3_desc:`Tüm PTE & SAT taktikleri, ücretsiz`, c3_cta:`Abone ol →`,
+      cta_h2:`<span class="cta-accent">Özgüvenle</span><br>konuşmaya hazır mısın?`,
+      cta_sub:`Bana bir mesaj gönder, e-posta ile sana geri döneyim. Üzerinde çalıştığın konuyu anlat, gerisini birlikte hallederiz.`,
+      form_name_ph:`Adın`, form_email_ph:`E-postan`,
+      form_topic_default:`Nasıl yardımcı olabilirim?`,
+      form_topic_1:`PTE hazırlığı`, form_topic_2:`SAT hazırlığı`, form_topic_3:`Birebir konuşma dersleri`, form_topic_4:`Sadece merhaba / başka bir şey`,
+      form_msg_ph:`Nasıl yardımcı olabilirim? Hedeflerinden biraz bahset.`,
+      form_btn:`Mesajı gönder`,
+      form_success:`Teşekkürler! Mesajın yola çıktı. Yakında e-posta ile döneceğim.`,
+      form_error:`Bir şeyler ters gitti. Lütfen tekrar dene ya da doğrudan e-posta gönder.`,
+      footer_rights:`© 2026 Nehirlish Academy. Tüm hakları saklıdır.`,
+      footer_tos:`Kullanım Koşulları`,
+      footer_privacy:`Gizlilik Politikası`
+    }
+  };
+
+  const titles = { en:`Nehirlish Academy`, tr:`Nehirlish Academy` };
+
+  let currentLang = 'en';
+
+  function setLang(lang){
+    const map = dict[lang];
+    document.querySelectorAll('[data-i18n]').forEach(el=>{
+      const key = el.dataset.i18n;
+      if(map[key] !== undefined) el.innerHTML = map[key];
+    });
+    document.querySelectorAll('[data-i18n-ph]').forEach(el=>{
+      const key = el.dataset.i18nPh;
+      if(map[key] !== undefined) el.setAttribute('placeholder', map[key]);
+    });
+    currentLang = lang;
+    document.documentElement.lang = lang;
+    document.title = titles[lang];
+    document.querySelectorAll('.lang-btn').forEach(b=>b.classList.toggle('active', b.dataset.lang===lang));
+  }
+
+  document.querySelectorAll('.lang-btn').forEach(btn=>{
+    btn.addEventListener('click',()=>setLang(btn.dataset.lang));
+  });
+
+  // dark mode toggle
+  const themeBtn = document.getElementById('themeBtn');
+  if(themeBtn){
+    themeBtn.addEventListener('click',()=>{
+      const next = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-theme', next);
+      try{ localStorage.setItem('nehirlish-theme', next); }catch(e){}
+    });
+  }
+
+  // mobile menu
+  const menuBtn = document.getElementById('menuBtn');
+  const navLinks = document.getElementById('navLinks');
+  menuBtn.addEventListener('click',()=>navLinks.classList.toggle('open'));
+  navLinks.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>navLinks.classList.remove('open')));
+
+  // enquiry form -> FormSubmit (emails submissions to nehirlishh@gmail.com)
+  const enquiryForm = document.getElementById('enquiryForm');
+  const formStatus = document.getElementById('formStatus');
+  if(enquiryForm){
+    enquiryForm.addEventListener('submit', async (e)=>{
+      e.preventDefault();
+      const honey = enquiryForm.querySelector('[name="_honey"]');
+      if(honey && honey.value) return; // spam honeypot
+      const btn = enquiryForm.querySelector('button[type="submit"]');
+      const btnLabel = btn.textContent;
+      btn.disabled = true;
+      btn.textContent = currentLang === 'tr' ? 'Gönderiliyor…' : 'Sending…';
+      formStatus.textContent = '';
+      formStatus.className = 'form-status';
+      const data = Object.fromEntries(new FormData(enquiryForm).entries());
+      try{
+        const res = await fetch('https://formsubmit.co/ajax/nehirlishh@gmail.com', {
+          method:'POST',
+          headers:{ 'Content-Type':'application/json', 'Accept':'application/json' },
+          body: JSON.stringify(data)
+        });
+        const out = await res.json();
+        if(out.success === true || out.success === 'true'){
+          formStatus.textContent = dict[currentLang].form_success;
+          formStatus.className = 'form-status ok';
+          enquiryForm.reset();
+        } else {
+          formStatus.textContent = dict[currentLang].form_error;
+          formStatus.className = 'form-status err';
+        }
+      } catch(err){
+        formStatus.textContent = dict[currentLang].form_error;
+        formStatus.className = 'form-status err';
+      } finally {
+        btn.disabled = false;
+        btn.textContent = btnLabel;
+      }
+    });
+  }
+
+  // sticky header shadow
+  const hdr = document.getElementById('hdr');
+  window.addEventListener('scroll',()=>hdr.classList.toggle('scrolled', window.scrollY>10));
+
+  // testimonials carousel
+  const track = document.getElementById('testiTrack');
+  const tPrev = document.getElementById('testiPrev');
+  const tNext = document.getElementById('testiNext');
+  if(track && tPrev && tNext){
+    const step = ()=>{
+      const card = track.querySelector('.quote-card');
+      const gap = parseFloat(getComputedStyle(track).gap) || 24;
+      return card ? card.getBoundingClientRect().width + gap : 360;
+    };
+    const updateArrows = ()=>{
+      const max = track.scrollWidth - track.clientWidth - 2;
+      tPrev.disabled = track.scrollLeft <= 2;
+      tNext.disabled = track.scrollLeft >= max;
+    };
+    tPrev.addEventListener('click',()=>track.scrollBy({left:-step(),behavior:'smooth'}));
+    tNext.addEventListener('click',()=>track.scrollBy({left:step(),behavior:'smooth'}));
+    track.addEventListener('scroll', updateArrows);
+    window.addEventListener('resize', updateArrows);
+    updateArrows();
+  }
+
+  // scroll reveal
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach((e,i)=>{
+      if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); }
+    });
+  },{threshold:.12});
+  document.querySelectorAll('.reveal').forEach((el,i)=>{
+    el.style.transitionDelay = (i % 6) * 60 + 'ms';
+    io.observe(el);
+  });
+</script>
+</body>
+</html>
