@@ -8,6 +8,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@1,9..144,600&family=Hanken+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
 /* ── RESET & BASE ── */
 *{box-sizing:border-box;margin:0;padding:0}
@@ -389,6 +390,7 @@ mark.nh{background:rgba(34,212,200,.28);color:inherit;border-radius:2px;padding:
         <div class="score-sub math"><div class="score-sub-n" id="scoreMath">0/5</div><div class="score-sub-l">Math</div></div>
       </div>
       <p class="score-msg" id="scoreMsg"></p>
+      <p id="saveStatus" style="font-size:.82rem;color:#999;margin:-8px 0 18px"></p>
       <div class="score-cta-row">
         <a href="index.html#contact" class="score-btn-p">Book a lesson with Nehir</a>
         <button class="score-btn-o" onclick="restartTest()">Try again</button>
@@ -402,6 +404,13 @@ mark.nh{background:rgba(34,212,200,.28);color:inherit;border-radius:2px;padding:
 </div>
 
 <script>
+// ── SUPABASE (for logged-in score/progress tracking) ────────────────────────
+const SUPABASE_URL = 'https://mifuomqueiocuttlwihu.supabase.co';
+const SUPABASE_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1pZnVvbXF1ZWlvY3V0dGx3aWh1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODEzMzM3OTMsImV4cCI6MjA5NjkwOTc5M30.egHMl5D059fZ3JtAK3jDKT59482KfDPrhpDXZAtCxYE';
+const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON);
+let currentUserId = null;
+sb.auth.getSession().then(({data:{session}}) => { if(session) currentUserId = session.user.id; });
+
 // ── QUESTIONS ──────────────────────────────────────────────────────────────
 const Qs = [
   {s:"rw",sl:"Reading and Writing",diff:"Easy",
@@ -470,6 +479,7 @@ const Qs = [
 let cur=0, score=0, rwScore=0, mathScore=0, answers=[], answered=false;
 let hlMode=false, pendingRange=null, pendingPassageId=null;
 let notes={};
+let qStartTime=null, questionTimings=[]; // ms elapsed per question, parallel to `answers`
 
 // ── CALC DRAG ──────────────────────────────────────────────────────────────
 (function(){
@@ -529,6 +539,7 @@ function renderQ(){
   const q=Qs[cur]; answered=false;
   dismissHL(); closeNote();
   updateProgress();
+  qStartTime = Date.now();
   document.getElementById('tfStatus').textContent='Select an answer to continue.';
   document.getElementById('nextFooterBtn').style.display='none';
 
@@ -570,6 +581,8 @@ function pick(i){
   if(answered)return;
   answered=true;
   const q=Qs[cur];
+  const timeSpentSec = qStartTime ? Math.max(0.5, (Date.now()-qStartTime)/1000) : 0;
+  questionTimings.push(timeSpentSec);
   answers.push({i,correct:q.ans});
   if(i===q.ans){score++;if(q.s==='rw')rwScore++;else mathScore++;}
   const L=['A','B','C','D'];
@@ -607,10 +620,72 @@ function showScore(){
     return `<div class="r-item"><div class="r-head"><div class="r-icon ${ok?'c':'w'}">${ok?'✓':'✗'}</div><div class="r-label">Q${i+1} · ${q.sl} · ${q.diff}</div></div><div class="r-ans">Your answer: ${a?L[a.i]:'--'} · Correct: ${L[q.ans]}</div><div class="r-exp">${q.exp.replace(/\n/g,'<br>')}</div></div>`;
   }).join('');
   window.scrollTo({top:0,behavior:'smooth'});
+  saveAttemptsToDashboard();
+}
+
+async function saveAttemptsToDashboard(){
+  const statusEl = document.getElementById('saveStatus');
+  if(!currentUserId){
+    if(statusEl) statusEl.innerHTML = 'Sign in to save this score to your dashboard. <a href="auth.html" style="color:#22d4c8;font-weight:600">Sign in →</a>';
+    return;
+  }
+  if(statusEl) statusEl.textContent = 'Saving to your dashboard…';
+  try{
+    // 1. Log each individual question attempt (raw data for the score-over-time chart)
+    const rows = Qs.map((q,i) => ({
+      student_id: currentUserId,
+      section_id: q.s === 'rw' ? 'sat-mini-rw' : 'sat-mini-math',
+      question_index: i,
+      correct: answers[i] ? answers[i].i === q.ans : false,
+      time_spent_seconds: questionTimings[i] || 0
+    }));
+    const { error: insertErr } = await sb.from('attempts').insert(rows);
+    if(insertErr) throw insertErr;
+
+    // 2. Update the rolling summary per section (rw and math tracked separately)
+    await upsertSectionProgress('sat-mini-rw', rwScore, 5, questionTimings.slice(0,5).reduce((s,t)=>s+t,0));
+    await upsertSectionProgress('sat-mini-math', mathScore, 5, questionTimings.slice(5,10).reduce((s,t)=>s+t,0));
+
+    if(statusEl) statusEl.innerHTML = '✓ Saved to your dashboard. <a href="dashboard.html" style="color:#22d4c8;font-weight:600">View progress →</a>';
+  }catch(err){
+    console.error('Failed to save attempt:', err);
+    if(statusEl) statusEl.textContent = "Couldn't save this attempt, but your results above are still valid.";
+  }
+}
+
+async function upsertSectionProgress(sectionId, newScore, newTotal, timeThisSession){
+  const { data: existing } = await sb
+    .from('section_progress')
+    .select('*')
+    .eq('student_id', currentUserId)
+    .eq('section_id', sectionId)
+    .maybeSingle();
+
+  if(!existing){
+    await sb.from('section_progress').insert({
+      student_id: currentUserId,
+      section_id: sectionId,
+      attempts_count: 1,
+      best_score: newScore,
+      best_score_total: newTotal,
+      total_time_seconds: timeThisSession,
+      last_attempted_at: new Date().toISOString()
+    });
+  } else {
+    await sb.from('section_progress').update({
+      attempts_count: existing.attempts_count + 1,
+      best_score: Math.max(existing.best_score, newScore),
+      best_score_total: newTotal,
+      total_time_seconds: Number(existing.total_time_seconds) + timeThisSession,
+      last_attempted_at: new Date().toISOString()
+    }).eq('student_id', currentUserId).eq('section_id', sectionId);
+  }
 }
 
 function restartTest(){
   cur=0;score=0;rwScore=0;mathScore=0;answers=[];answered=false;notes={};hlMode=false;
+  questionTimings=[];qStartTime=null;
+  const statusEl=document.getElementById('saveStatus'); if(statusEl) statusEl.textContent='';
   document.getElementById('scoreScreen').style.display='none';
   document.getElementById('landingScreen').style.display='flex';
   window.scrollTo({top:0,behavior:'smooth'});

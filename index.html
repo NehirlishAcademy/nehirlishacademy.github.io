@@ -117,6 +117,10 @@
   .btn-light:hover{transform:translateY(-2px);box-shadow:var(--shadow-sm)}
   .btn-outline{background:transparent;color:var(--ink);border-color:rgba(26,26,46,.22)}
   .btn-outline:hover{border-color:var(--ink);transform:translateY(-2px)}
+  .btn-signin{background:transparent;color:var(--muted);border-color:transparent;font-size:.88rem;padding:.45em 1em}
+  .btn-signin:hover{color:var(--teal);transform:none}
+  .btn-userinfo{background:rgba(34,212,200,.1);color:var(--teal-deep);border-color:rgba(34,212,200,.25);font-size:.82rem;padding:.4em 1em;border-radius:999px;cursor:pointer}
+  html[data-theme="dark"] .btn-userinfo{color:var(--teal)}
   .btn-ghost{background:transparent;color:var(--ink)}
   .btn-ghost:hover{color:var(--teal-deep)}
 
@@ -374,6 +378,7 @@
         <svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
         <svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
       </button>
+      <a href="auth.html" class="btn btn-signin" id="navSignIn" data-i18n="nav_signin">Sign in</a>
       <a href="#contact" class="btn btn-outline nav-book" data-i18n="nav_book">Book a lesson</a>
       <button class="menu-btn" id="menuBtn" aria-label="Menu"><span></span></button>
     </div>
@@ -652,7 +657,7 @@
 <script>
   const dict = {
     en: {
-      nav_about:`About`, nav_services:`Services`, nav_courses:`Courses`, nav_content:`Content`, nav_book:`Book a lesson`,
+      nav_about:`About`, nav_services:`Services`, nav_courses:`Courses`, nav_content:`Content`, nav_book:`Book a lesson`, nav_signin:`Sign in`,
       hero_eyebrow:`English Fluency Coach`,
       hero_h1:`Speak English.<br><span class="hero-accent">Sound brilliant.</span>`,
       hero_sub:`1-on-1 lessons, PTE & SAT prep, and daily speaking tips. For everyone who wants to speak with real confidence.`,
@@ -889,6 +894,28 @@
     el.style.transitionDelay = (i % 6) * 60 + 'ms';
     io.observe(el);
   });
+</script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+// Auth state
+const _sb = supabase.createClient(
+  'https://mifuomqueiocuttlwihu.supabase.co',
+  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1pZnVvbXF1ZWlvY3V0dGx3aWh1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODEzMzM3OTMsImV4cCI6MjA5NjkwOTc5M30.egHMl5D059fZ3JtAK3jDKT59482KfDPrhpDXZAtCxYE'
+);
+
+async function updateNavAuth(){
+  const {data:{session}} = await _sb.auth.getSession();
+  const btn = document.getElementById('navSignIn');
+  if(!btn) return;
+  if(session){
+    const name = session.user.user_metadata?.full_name || session.user.email.split('@')[0];
+    btn.textContent = name;
+    btn.className = 'btn btn-userinfo';
+    btn.href = 'dashboard.html';
+    btn.onclick = null;
+  }
+}
+updateNavAuth();
 </script>
 </body>
 </html>
