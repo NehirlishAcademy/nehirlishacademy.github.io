@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sign In | Nehirlish Academy</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='24' fill='%231a1a2e'/><text x='50' y='73' font-family='Georgia,serif' font-style='italic' font-weight='700' font-size='66' fill='%2322d4c8' text-anchor='middle'>N</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@1,9..144,600&family=Hanken+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Hanken Grotesk',system-ui,sans-serif;background:#f9f9fb;min-height:100vh;display:flex;flex-direction:column;-webkit-font-smoothing:antialiased;color:#1a1a1a}
+  a{color:inherit;text-decoration:none}
+  nav{background:#fff;border-bottom:1px solid #e8e8e8;padding:0 32px;height:56px;display:flex;align-items:center;justify-content:space-between}
+  .logo{font-family:'Fraunces',serif;font-style:italic;font-weight:600;font-size:1.4rem}
+  .logo .a{color:#22d4c8}.logo .b{color:#6c5ce7}
+  .nav-back{font-size:.85rem;font-weight:600;color:#888;transition:color .2s}
+  .nav-back:hover{color:#22d4c8}
+  main{flex:1;display:flex;align-items:center;justify-content:center;padding:40px 20px}
+  .card{background:#fff;border:1px solid #e8e8e8;border-radius:14px;padding:40px 44px;width:100%;max-width:420px;box-shadow:0 4px 24px rgba(0,0,0,.06)}
+  .card-eyebrow{font-size:.7rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:#22d4c8;margin-bottom:10px}
+  .card h1{font-family:'Fraunces',serif;font-weight:600;font-size:1.7rem;letter-spacing:-.02em;margin-bottom:6px}
+  .card h1 em{font-style:italic;color:#6c5ce7}
+  .card-sub{font-size:.9rem;color:#888;margin-bottom:28px;line-height:1.5}
+
+  /* TABS */
+  .tabs{display:flex;border:1px solid #e8e8e8;border-radius:8px;overflow:hidden;margin-bottom:24px}
+  .tab{flex:1;padding:10px;font-family:'Hanken Grotesk',sans-serif;font-size:.88rem;font-weight:600;border:none;background:#fff;color:#888;cursor:pointer;transition:background .18s,color .18s}
+  .tab.active{background:#1a1a2e;color:#fff}
+
+  /* FORM */
+  .field{margin-bottom:16px}
+  .field label{display:block;font-size:.82rem;font-weight:600;color:#444;margin-bottom:6px}
+  .field input{width:100%;padding:11px 14px;border:1.5px solid #e0e0e0;border-radius:8px;font-family:'Hanken Grotesk',sans-serif;font-size:.95rem;color:#1a1a1a;outline:none;transition:border-color .18s}
+  .field input:focus{border-color:#22d4c8}
+  .submit-btn{width:100%;padding:13px;border-radius:8px;background:#1a1a2e;color:#fff;font-family:'Hanken Grotesk',sans-serif;font-weight:700;font-size:.97rem;border:none;cursor:pointer;transition:background .2s;margin-top:4px}
+  .submit-btn:hover{background:#2d2b52}
+  .submit-btn:disabled{background:#aaa;cursor:not-allowed}
+
+  /* MESSAGES */
+  .msg{padding:12px 14px;border-radius:8px;font-size:.88rem;margin-bottom:16px;display:none;line-height:1.5}
+  .msg.error{background:#fef2f2;border:1px solid #fecaca;color:#dc2626}
+  .msg.success{background:#f0fdf4;border:1px solid #bbf7d0;color:#16a34a}
+  .msg.show{display:block}
+
+  /* DIVIDER */
+  .divider{display:flex;align-items:center;gap:12px;margin:20px 0;color:#ccc;font-size:.82rem;font-weight:600}
+  .divider::before,.divider::after{content:'';flex:1;height:1px;background:#e8e8e8}
+
+  /* FORGOT */
+  .forgot{text-align:right;margin-top:-8px;margin-bottom:16px}
+  .forgot button{background:none;border:none;font-size:.8rem;color:#888;cursor:pointer;font-family:'Hanken Grotesk',sans-serif}
+  .forgot button:hover{color:#22d4c8}
+
+  /* SUCCESS STATE */
+  #successState{display:none;text-align:center;padding:20px 0}
+  .success-icon{font-size:2.5rem;margin-bottom:12px}
+  #successState h2{font-family:'Fraunces',serif;font-size:1.4rem;margin-bottom:8px}
+  #successState p{font-size:.9rem;color:#888;line-height:1.55}
+
+  footer{padding:24px;text-align:center;font-size:.82rem;color:#bbb}
+  footer a{color:#22d4c8}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="logo"><span class="a">Nehir</span><span class="b">lish</span><span class="a"> Academy</span></a>
+  <a href="index.html" class="nav-back">← Back to site</a>
+</nav>
+
+<main>
+  <div class="card">
+    <div class="card-eyebrow">Student Portal</div>
+    <h1>Welcome <em>back</em></h1>
+    <p class="card-sub">Sign in to track your practice test scores and save your progress.</p>
+
+    <div class="tabs">
+      <button class="tab active" onclick="switchTab('signin')">Sign in</button>
+      <button class="tab" onclick="switchTab('signup')">Create account</button>
+    </div>
+
+    <div id="msgBox" class="msg"></div>
+
+    <!-- SIGN IN FORM -->
+    <div id="signinForm">
+      <div class="field">
+        <label>Email address</label>
+        <input type="email" id="siEmail" placeholder="you@email.com" autocomplete="email">
+      </div>
+      <div class="field">
+        <label>Password</label>
+        <input type="password" id="siPass" placeholder="Your password" autocomplete="current-password">
+      </div>
+      <div class="forgot">
+        <button onclick="forgotPassword()">Forgot password?</button>
+      </div>
+      <button class="submit-btn" id="siBtn" onclick="signIn()">Sign in</button>
+    </div>
+
+    <!-- SIGN UP FORM -->
+    <div id="signupForm" style="display:none">
+      <div class="field">
+        <label>Your name</label>
+        <input type="text" id="suName" placeholder="First name" autocomplete="given-name">
+      </div>
+      <div class="field">
+        <label>Email address</label>
+        <input type="email" id="suEmail" placeholder="you@email.com" autocomplete="email">
+      </div>
+      <div class="field">
+        <label>Password</label>
+        <input type="password" id="suPass" placeholder="At least 6 characters" autocomplete="new-password">
+      </div>
+      <button class="submit-btn" id="suBtn" onclick="signUp()">Create account</button>
+    </div>
+
+    <!-- SUCCESS STATE -->
+    <div id="successState">
+      <div class="success-icon">✉️</div>
+      <h2>Check your email</h2>
+      <p>We sent a confirmation link to your email address. Click it to activate your account, then come back and sign in.</p>
+    </div>
+
+    <!-- RESET PASSWORD FORM (shown when arriving from a password-reset email link) -->
+    <div id="resetForm" style="display:none">
+      <div class="field">
+        <label>New password</label>
+        <input type="password" id="rpPass" placeholder="At least 6 characters" autocomplete="new-password">
+      </div>
+      <div class="field">
+        <label>Confirm new password</label>
+        <input type="password" id="rpPass2" placeholder="Re-enter your new password" autocomplete="new-password">
+      </div>
+      <button class="submit-btn" id="rpBtn" onclick="setNewPassword()">Set new password</button>
+    </div>
+
+  </div>
+</main>
+
+<footer>
+  © 2026 Nehirlish Academy · <a href="terms.html">Terms</a> · <a href="privacy.html">Privacy</a>
+</footer>
+
+<script>
+const SUPABASE_URL = 'https://mifuomqueiocuttlwihu.supabase.co';
+const SUPABASE_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1pZnVvbXF1ZWlvY3V0dGx3aWh1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODEzMzM3OTMsImV4cCI6MjA5NjkwOTc5M30.egHMl5D059fZ3JtAK3jDKT59482KfDPrhpDXZAtCxYE';
+const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON);
+
+let inPasswordRecovery = false;
+
+// If arriving from a password-reset email link, Supabase fires this event
+// instead of a normal sign-in. Show the "set new password" form, don't redirect.
+sb.auth.onAuthStateChange((event, session) => {
+  if(event === 'PASSWORD_RECOVERY'){
+    inPasswordRecovery = true;
+    document.querySelector('.tabs').style.display='none';
+    document.getElementById('signinForm').style.display='none';
+    document.getElementById('signupForm').style.display='none';
+    document.querySelector('.card-sub').textContent='Enter a new password for your account.';
+    document.getElementById('resetForm').style.display='block';
+  }
+});
+
+// If already signed in (and not in the middle of a password reset), go home.
+sb.auth.getSession().then(({data:{session}})=>{
+  if(session && !inPasswordRecovery){
+    setTimeout(()=>{ if(!inPasswordRecovery) window.location.href='index.html'; }, 50);
+  }
+});
+
+function switchTab(tab){
+  document.querySelectorAll('.tab').forEach((t,i)=>t.classList.toggle('active',(tab==='signin'&&i===0)||(tab==='signup'&&i===1)));
+  document.getElementById('signinForm').style.display=tab==='signin'?'block':'none';
+  document.getElementById('signupForm').style.display=tab==='signup'?'block':'none';
+  hideMsg();
+}
+
+function showMsg(text, type){
+  const el=document.getElementById('msgBox');
+  el.textContent=text;
+  el.className=`msg ${type} show`;
+}
+function hideMsg(){
+  const el=document.getElementById('msgBox');
+  el.className='msg';
+}
+
+async function signIn(){
+  const email=document.getElementById('siEmail').value.trim();
+  const pass=document.getElementById('siPass').value;
+  if(!email||!pass){showMsg('Please fill in all fields.','error');return;}
+  const btn=document.getElementById('siBtn');
+  btn.disabled=true;btn.textContent='Signing in...';
+  const {error}=await sb.auth.signInWithPassword({email,password:pass});
+  btn.disabled=false;btn.textContent='Sign in';
+  if(error){showMsg(error.message,'error');}
+  else{window.location.href='index.html';}
+}
+
+async function signUp(){
+  const name=document.getElementById('suName').value.trim();
+  const email=document.getElementById('suEmail').value.trim();
+  const pass=document.getElementById('suPass').value;
+  if(!name||!email||!pass){showMsg('Please fill in all fields.','error');return;}
+  if(pass.length<6){showMsg('Password must be at least 6 characters.','error');return;}
+  const btn=document.getElementById('suBtn');
+  btn.disabled=true;btn.textContent='Creating account...';
+  const {error}=await sb.auth.signUp({
+    email,password:pass,
+    options:{data:{full_name:name},emailRedirectTo:'https://nehirlishacademy.github.io/index.html'}
+  });
+  btn.disabled=false;btn.textContent='Create account';
+  if(error){showMsg(error.message,'error');}
+  else{
+    document.getElementById('signupForm').style.display='none';
+    document.querySelector('.tabs').style.display='none';
+    document.querySelector('.card-sub').style.display='none';
+    document.getElementById('successState').style.display='block';
+  }
+}
+
+async function forgotPassword(){
+  const email=document.getElementById('siEmail').value.trim();
+  if(!email){showMsg('Enter your email address first, then click Forgot password.','error');return;}
+  const {error}=await sb.auth.resetPasswordForEmail(email,{redirectTo:'https://nehirlishacademy.github.io/auth.html'});
+  if(error){showMsg(error.message,'error');}
+  else{showMsg('Password reset link sent! Check your email.','success');}
+}
+
+async function setNewPassword(){
+  const pass=document.getElementById('rpPass').value;
+  const pass2=document.getElementById('rpPass2').value;
+  if(!pass||!pass2){showMsg('Please fill in both fields.','error');return;}
+  if(pass.length<6){showMsg('Password must be at least 6 characters.','error');return;}
+  if(pass!==pass2){showMsg('Passwords do not match.','error');return;}
+  const btn=document.getElementById('rpBtn');
+  btn.disabled=true;btn.textContent='Saving...';
+  const {error}=await sb.auth.updateUser({password:pass});
+  btn.disabled=false;btn.textContent='Set new password';
+  if(error){showMsg(error.message,'error');return;}
+  inPasswordRecovery=false;
+  showMsg('Password updated! Redirecting you home...','success');
+  setTimeout(()=>{window.location.href='index.html';},1200);
+}
+
+// Enter key support
+document.addEventListener('keydown',e=>{
+  if(e.key==='Enter'){
+    if(document.getElementById('resetForm').style.display!=='none')setNewPassword();
+    else if(document.getElementById('signinForm').style.display!=='none')signIn();
+    else signUp();
+  }
+});
+</script>
+</body>
+</html>

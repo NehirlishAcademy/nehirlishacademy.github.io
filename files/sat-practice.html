@@ -1,0 +1,770 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Free SAT Mini Test | Nehirlish Academy</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='24' fill='%231a1a2e'/><text x='50' y='73' font-family='Georgia,serif' font-style='italic' font-weight='700' font-size='66' fill='%2322d4c8' text-anchor='middle'>N</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@1,9..144,600&family=Hanken+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+/* ── RESET & BASE ── */
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;font-family:'Hanken Grotesk',system-ui,sans-serif;font-size:15px;background:#fff;color:#1a1a1a;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+button{font-family:'Hanken Grotesk',system-ui,sans-serif;cursor:pointer}
+
+/* ── SCREENS ── */
+#landingScreen{display:flex;flex-direction:column;min-height:100vh;background:#f9f9fb}
+#testScreen{display:none;flex-direction:column;height:100vh;overflow:hidden}
+#scoreScreen{display:none;min-height:100vh;background:#f9f9fb;padding:0 0 80px}
+
+/* ── LANDING ── */
+.landing-nav{background:#fff;border-bottom:1px solid #e8e8e8;padding:0 32px;height:56px;display:flex;align-items:center;justify-content:space-between}
+.landing-logo{font-family:'Fraunces',serif;font-style:italic;font-weight:600;font-size:1.4rem}
+.landing-logo .a{color:#22d4c8}.landing-logo .b{color:#6c5ce7}
+.landing-body{flex:1;display:flex;align-items:center;justify-content:center;padding:48px 24px}
+.landing-card{background:#fff;border:1px solid #e8e8e8;border-radius:12px;padding:48px 52px;max-width:560px;width:100%;box-shadow:0 4px 24px rgba(0,0,0,.06)}
+.landing-section-tag{font-size:.72rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:#22d4c8;margin-bottom:12px}
+.landing-card h1{font-size:1.85rem;font-weight:700;line-height:1.2;margin-bottom:12px;letter-spacing:-.02em}
+.landing-card h1 span{color:#6c5ce7}
+.landing-card p{font-size:.97rem;color:#555;line-height:1.65;margin-bottom:24px}
+.landing-meta{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:32px}
+.lmeta{font-size:.8rem;font-weight:600;background:#f3f3f5;border:1px solid #e4e4e8;border-radius:6px;padding:.3em .75em;color:#444}
+.lmeta.teal{background:#e6faf9;border-color:#b2ede9;color:#0f8a82}
+.lmeta.purple{background:#f0edfb;border-color:#cfc4f5;color:#5a3ec8}
+.landing-start{width:100%;padding:14px;border-radius:8px;background:#1a1a2e;color:#fff;font-weight:700;font-size:1rem;border:none;transition:background .2s}
+.landing-start:hover{background:#2d2b52}
+.landing-note{margin-top:14px;font-size:.82rem;color:#999;text-align:center}
+
+/* ── TEST HEADER ── */
+.test-header{background:#fff;border-bottom:2px solid #e8e8e8;height:52px;display:flex;align-items:center;justify-content:space-between;padding:0 20px;flex-shrink:0;z-index:100}
+.th-left{display:flex;align-items:center;gap:16px}
+.th-logo{font-family:'Fraunces',serif;font-style:italic;font-weight:600;font-size:1.1rem}
+.th-logo .a{color:#22d4c8}.th-logo .b{color:#6c5ce7}
+.th-divider{width:1px;height:20px;background:#e0e0e0}
+.th-section{font-size:.82rem;font-weight:600;color:#666;letter-spacing:.04em}
+.th-center{display:flex;align-items:center;gap:8px}
+.th-qnum{font-size:.85rem;font-weight:700;color:#1a1a1a}
+.th-progress{display:flex;gap:3px}
+.th-dot{width:8px;height:8px;border-radius:50%;background:#e0e0e0;transition:background .3s}
+.th-dot.done{background:#22d4c8}
+.th-dot.current{background:#1a1a2e}
+.th-right{display:flex;align-items:center;gap:8px}
+.th-tool-btn{display:inline-flex;align-items:center;gap:5px;padding:6px 12px;border-radius:6px;border:1.5px solid #e0e0e0;background:#fff;font-size:.78rem;font-weight:600;color:#333;transition:border-color .18s,background .18s;white-space:nowrap}
+.th-tool-btn:hover{border-color:#6c5ce7;background:#f5f3ff}
+.th-tool-btn.active{border-color:#22d4c8;background:#e6faf9;color:#0f8a82}
+.th-tool-btn svg{width:14px;height:14px;flex-shrink:0}
+
+/* ── MAIN TEST LAYOUT ── */
+.test-body{flex:1;display:flex;overflow:hidden}
+
+/* LEFT: passage */
+.passage-panel{flex:1;overflow-y:auto;padding:32px 36px;border-right:1px solid #e8e8e8;background:#fafafa}
+.passage-panel.no-passage{display:flex;align-items:center;justify-content:center;background:#fff}
+.no-passage-msg{color:#bbb;font-size:.9rem;text-align:center}
+.passage-label{font-size:.68rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:#999;margin-bottom:12px}
+.passage-text{font-size:.97rem;line-height:1.8;color:#1a1a1a;user-select:text}
+.passage-hint{font-size:.72rem;color:#22d4c8;font-weight:600;margin-bottom:10px;display:flex;align-items:center;gap:4px}
+mark.nh{background:rgba(34,212,200,.28);color:inherit;border-radius:2px;padding:0 1px;cursor:pointer}
+.notes-below{margin-top:16px;display:flex;flex-direction:column;gap:6px}
+.note-chip{background:#f0edfb;border:1px solid #cfc4f5;border-radius:8px;padding:8px 12px;font-size:.82rem}
+.note-chip-quoted{color:#888;font-style:italic;font-size:.78rem;margin-bottom:2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.note-chip-body{color:#333}
+
+/* RIGHT: question */
+.question-panel{width:460px;flex-shrink:0;overflow-y:auto;padding:32px 32px 100px;background:#fff}
+.q-section-tag{display:inline-flex;font-size:.68rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;padding:.25em .7em;border-radius:999px;margin-bottom:16px}
+.q-section-tag.rw{background:#e6faf9;color:#0f8a82}
+.q-section-tag.math{background:#f0edfb;color:#5a3ec8}
+.q-stem{font-size:1rem;font-weight:500;line-height:1.6;color:#1a1a1a;margin-bottom:20px}
+.options{display:flex;flex-direction:column;gap:0}
+.opt{display:flex;align-items:flex-start;gap:0;border:1.5px solid #e0e0e0;border-radius:0;margin-bottom:-1px;background:#fff;width:100%;text-align:left;padding:0;transition:background .15s,border-color .15s;overflow:hidden}
+.opt:first-child{border-radius:8px 8px 0 0}
+.opt:last-child{border-radius:0 0 8px 8px;margin-bottom:0}
+.opt:hover:not(:disabled){background:#f5f3ff;border-color:#6c5ce7;z-index:1;position:relative}
+.opt:disabled{cursor:default}
+.opt-letter-box{width:44px;flex-shrink:0;display:flex;align-items:flex-start;justify-content:center;padding:14px 0 14px;font-size:.85rem;font-weight:700;color:#666;border-right:1.5px solid #e0e0e0;background:transparent;transition:background .15s}
+.opt-text{padding:13px 14px;font-size:.93rem;line-height:1.5;color:#1a1a1a;flex:1}
+.opt.selected{border-color:#1a1a2e;z-index:1;position:relative}
+.opt.selected .opt-letter-box{background:#1a1a2e;color:#fff;border-color:#1a1a2e}
+.opt.correct{border-color:#16a34a;z-index:1;position:relative}
+.opt.correct .opt-letter-box{background:#16a34a;color:#fff;border-color:#16a34a}
+.opt.correct .opt-text{color:#14532d}
+.opt.wrong{border-color:#dc2626;z-index:1;position:relative}
+.opt.wrong .opt-letter-box{background:#dc2626;color:#fff;border-color:#dc2626}
+.opt.wrong .opt-text{color:#7f1d1d}
+.opt.reveal{border-color:#16a34a;opacity:.75}
+.opt.reveal .opt-letter-box{background:#16a34a;color:#fff;border-color:#16a34a}
+
+/* EXPLANATION */
+.explanation-box{margin-top:20px;border:1.5px solid #e0e0e0;border-radius:8px;overflow:hidden;display:none}
+.explanation-box.show{display:block}
+.explanation-head{background:#f9f9fb;padding:10px 16px;font-size:.72rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#6c5ce7;border-bottom:1px solid #e0e0e0}
+.explanation-body{padding:14px 16px;font-size:.9rem;line-height:1.65;color:#333}
+
+/* NEXT BUTTON */
+.next-row{margin-top:20px;display:none}
+.next-row.show{display:flex;justify-content:flex-end}
+.next-btn{padding:10px 24px;border-radius:8px;background:#1a1a2e;color:#fff;font-weight:700;font-size:.92rem;border:none;transition:background .2s}
+.next-btn:hover{background:#2d2b52}
+
+/* ── BOTTOM BAR ── */
+.test-footer{background:#fff;border-top:1px solid #e8e8e8;height:52px;display:flex;align-items:center;justify-content:space-between;padding:0 24px;flex-shrink:0}
+.tf-left{font-size:.82rem;color:#888;font-weight:500}
+.tf-right{display:flex;gap:8px}
+.tf-btn{padding:8px 18px;border-radius:6px;font-size:.85rem;font-weight:600;border:1.5px solid #e0e0e0;background:#fff;color:#333;transition:border-color .18s}
+.tf-btn:hover{border-color:#1a1a2e}
+.tf-btn.primary{background:#1a1a2e;color:#fff;border-color:#1a1a2e}
+.tf-btn.primary:hover{background:#2d2b52}
+
+/* ── DRAGGABLE CALCULATOR ── */
+#calcPanel{
+  display:none;position:fixed;z-index:500;
+  background:#fff;border:1.5px solid #ccc;border-radius:10px;
+  box-shadow:0 8px 32px rgba(0,0,0,.18);
+  width:340px;overflow:hidden;
+  top:80px;right:24px;
+}
+#calcPanel.show{display:block}
+#calcDragHandle{
+  background:#1a1a2e;color:#fff;
+  padding:9px 14px;font-size:.78rem;font-weight:700;
+  display:flex;align-items:center;justify-content:space-between;
+  cursor:grab;user-select:none;letter-spacing:.04em;
+}
+#calcDragHandle:active{cursor:grabbing}
+#calcDragHandle span{opacity:.7;font-size:.7rem;font-weight:400}
+#calcClose{background:rgba(255,255,255,.15);border:none;color:#fff;width:22px;height:22px;border-radius:4px;font-size:.9rem;display:flex;align-items:center;justify-content:center;cursor:pointer}
+#calcClose:hover{background:rgba(255,255,255,.3)}
+#calcIframe{width:100%;height:380px;border:none;display:block}
+
+/* ── HIGHLIGHT TOOLTIP ── */
+#hlTooltip{
+  display:none;position:fixed;z-index:600;
+  background:#1a1a2e;border-radius:8px;padding:7px 10px;
+  gap:6px;align-items:center;
+  box-shadow:0 4px 16px rgba(0,0,0,.25);
+}
+#hlTooltip.show{display:flex}
+.hl-btn{background:transparent;border:1px solid rgba(255,255,255,.2);color:#fff;border-radius:5px;padding:.25em .65em;font-size:.76rem;font-weight:600;cursor:pointer;font-family:'Hanken Grotesk',sans-serif;transition:background .15s}
+.hl-btn:hover{background:rgba(255,255,255,.15)}
+.hl-btn.teal{background:rgba(34,212,200,.18);border-color:#22d4c8;color:#22d4c8}
+
+/* NOTE POPUP */
+#notePopup{
+  display:none;position:fixed;z-index:700;
+  background:#fff;border:1.5px solid #e0e0e0;border-radius:10px;
+  padding:16px;width:270px;
+  box-shadow:0 8px 28px rgba(0,0,0,.14);
+  top:50%;left:50%;transform:translate(-50%,-50%);
+}
+#notePopup.show{display:block}
+.np-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+.np-title{font-size:.72rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#6c5ce7}
+.np-close{background:none;border:none;color:#aaa;font-size:1rem;line-height:1;cursor:pointer}
+#noteTextarea{width:100%;height:80px;border:1.5px solid #e0e0e0;border-radius:6px;padding:8px 10px;font-family:'Hanken Grotesk',sans-serif;font-size:.88rem;resize:none;outline:none;color:#1a1a1a}
+#noteTextarea:focus{border-color:#22d4c8}
+.np-save{margin-top:8px;width:100%;padding:.55em;border-radius:6px;background:#1a1a2e;color:#fff;font-family:'Hanken Grotesk',sans-serif;font-weight:700;font-size:.85rem;border:none;cursor:pointer}
+.np-save:hover{background:#2d2b52}
+
+/* ── REFERENCE MODAL ── */
+#refModal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:800;align-items:center;justify-content:center;padding:20px}
+#refModal.show{display:flex}
+.ref-box{background:#fff;border-radius:12px;width:100%;max-width:540px;max-height:88vh;overflow-y:auto;box-shadow:0 16px 56px rgba(0,0,0,.2)}
+.ref-header{position:sticky;top:0;background:#fff;border-bottom:1px solid #e8e8e8;padding:14px 20px;display:flex;align-items:center;justify-content:space-between;border-radius:12px 12px 0 0}
+.ref-header h3{font-size:1rem;font-weight:700}
+.ref-close{background:#f3f3f5;border:none;border-radius:6px;width:28px;height:28px;font-size:.9rem;cursor:pointer;color:#555}
+.ref-body{padding:20px}
+.ref-sec{margin-bottom:20px}
+.ref-sec:last-child{margin-bottom:0}
+.ref-sec-title{font-size:.68rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:#22d4c8;margin-bottom:10px}
+.ref-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:8px}
+.ref-item{background:#f9f9fb;border:1px solid #e8e8e8;border-radius:8px;padding:10px 12px}
+.ref-item strong{display:block;font-size:.85rem;font-weight:700;color:#1a1a1a;margin-bottom:2px}
+.ref-item span{font-size:.82rem;color:#666}
+.ref-tip{margin-top:16px;background:#f0edfb;border:1px solid #cfc4f5;border-radius:8px;padding:10px 14px;font-size:.82rem;color:#444;line-height:1.55}
+.ref-tip strong{color:#6c5ce7}
+
+/* ── SCORE SCREEN ── */
+.score-nav{background:#fff;border-bottom:1px solid #e8e8e8;padding:0 32px;height:56px;display:flex;align-items:center;justify-content:space-between}
+.score-wrap{max-width:700px;margin:0 auto;padding:48px 24px 0}
+.score-top{background:#fff;border:1px solid #e8e8e8;border-radius:12px;padding:40px 40px 32px;text-align:center;margin-bottom:24px;box-shadow:0 4px 20px rgba(0,0,0,.05)}
+.score-num{font-size:4.5rem;font-weight:700;line-height:1;letter-spacing:-.04em;color:#1a1a2e;margin-bottom:4px}
+.score-num span{color:#22d4c8}
+.score-of{font-size:.82rem;font-weight:600;color:#aaa;letter-spacing:.1em;text-transform:uppercase;margin-bottom:20px}
+.score-subs{display:flex;gap:24px;justify-content:center;flex-wrap:wrap;margin-bottom:20px}
+.score-sub{text-align:center;padding:14px 24px;border-radius:10px;border:1px solid #e8e8e8}
+.score-sub-n{font-size:1.6rem;font-weight:700}
+.score-sub-l{font-size:.78rem;color:#888;font-weight:600;margin-top:2px}
+.score-sub.rw .score-sub-n{color:#0f8a82}
+.score-sub.math .score-sub-n{color:#5a3ec8}
+.score-msg{font-size:.95rem;color:#666;max-width:24rem;margin:0 auto 24px;line-height:1.6}
+.score-cta-row{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+.score-btn-p{padding:.85em 1.6em;border-radius:8px;background:#1a1a2e;color:#fff;font-family:'Hanken Grotesk',sans-serif;font-weight:700;font-size:.92rem;border:none;cursor:pointer;text-decoration:none;display:inline-block;transition:background .2s}
+.score-btn-p:hover{background:#2d2b52}
+.score-btn-o{padding:.85em 1.6em;border-radius:8px;background:#fff;color:#1a1a1a;font-family:'Hanken Grotesk',sans-serif;font-weight:700;font-size:.92rem;border:1.5px solid #e0e0e0;cursor:pointer;transition:border-color .2s}
+.score-btn-o:hover{border-color:#1a1a2e}
+.review-wrap{max-width:700px;margin:0 auto;padding:0 24px}
+.review-title{font-size:1.1rem;font-weight:700;margin-bottom:14px}
+.r-item{background:#fff;border:1px solid #e8e8e8;border-radius:10px;padding:18px 20px;margin-bottom:10px}
+.r-head{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+.r-icon{width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.78rem;font-weight:700;flex-shrink:0}
+.r-icon.c{background:#dcfce7;color:#16a34a}
+.r-icon.w{background:#fee2e2;color:#dc2626}
+.r-label{font-size:.88rem;font-weight:600;color:#1a1a1a}
+.r-ans{font-size:.82rem;color:#888;margin-bottom:6px}
+.r-exp{font-size:.85rem;color:#444;line-height:1.6;background:#f9f9fb;border-radius:6px;padding:10px 12px}
+
+/* ── MOBILE ── */
+@media(max-width:680px){
+  .test-body{flex-direction:column}
+  .passage-panel{border-right:none;border-bottom:1px solid #e8e8e8;max-height:38vh;padding:20px}
+  .question-panel{width:100%;padding:20px 20px 100px}
+  #calcPanel{width:calc(100vw - 32px);right:16px}
+  .landing-card{padding:32px 24px}
+  .score-top{padding:28px 20px}
+  .th-dot{width:6px;height:6px}
+}
+</style>
+</head>
+<body>
+
+<!-- ============================= LANDING ============================= -->
+<div id="landingScreen">
+  <nav class="landing-nav">
+    <a href="index.html" class="landing-logo"><span class="a">Nehir</span><span class="b">lish</span><span class="a"> Academy</span></a>
+    <a href="index.html" style="font-size:.85rem;font-weight:600;color:#888">← Back to site</a>
+  </nav>
+  <div class="landing-body">
+    <div class="landing-card">
+      <div class="landing-section-tag">Free Practice</div>
+      <h1>SAT Mini <span>Practice Test</span></h1>
+      <p>10 original questions across Reading & Writing and Math. Mixed difficulty levels. Includes a built-in Desmos calculator, formula reference sheet, and passage highlighting. Full explanations after every answer.</p>
+      <div class="landing-meta">
+        <span class="lmeta">10 questions</span>
+        <span class="lmeta">~10 minutes</span>
+        <span class="lmeta teal">Desmos calculator</span>
+        <span class="lmeta teal">Highlight passages</span>
+        <span class="lmeta purple">Full explanations</span>
+        <span class="lmeta purple">Mixed difficulty</span>
+      </div>
+      <button class="landing-start" onclick="startTest()">Start practice test</button>
+      <div class="landing-note">No sign-up needed. 100% free.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================= DRAGGABLE CALC ============================= -->
+<div id="calcPanel">
+  <div id="calcDragHandle">
+    <div>Desmos Calculator <span>drag to move</span></div>
+    <button id="calcClose" onclick="toggleCalc()">✕</button>
+  </div>
+  <iframe id="calcIframe" src="https://www.desmos.com/scientific" title="Desmos Scientific Calculator" allowfullscreen></iframe>
+</div>
+
+<!-- HIGHLIGHT TOOLTIP -->
+<div id="hlTooltip">
+  <button class="hl-btn teal" onclick="doHighlight()">Highlight</button>
+  <button class="hl-btn" onclick="doNote()">+ Note</button>
+  <button class="hl-btn" onclick="dismissHL()">✕</button>
+</div>
+
+<!-- NOTE POPUP -->
+<div id="notePopup">
+  <div class="np-header">
+    <span class="np-title">Add note</span>
+    <button class="np-close" onclick="closeNote()">✕</button>
+  </div>
+  <textarea id="noteTextarea" placeholder="Type your note here..."></textarea>
+  <button class="np-save" onclick="saveNote()">Save</button>
+</div>
+
+<!-- REFERENCE MODAL -->
+<div id="refModal" onclick="closeRefOnOverlay(event)">
+  <div class="ref-box">
+    <div class="ref-header">
+      <h3>SAT Math Reference Sheet</h3>
+      <button class="ref-close" onclick="closeRef()">✕</button>
+    </div>
+    <div class="ref-body">
+      <div class="ref-sec">
+        <div class="ref-sec-title">Area</div>
+        <div class="ref-grid">
+          <div class="ref-item"><strong>Rectangle</strong><span>A = lw</span></div>
+          <div class="ref-item"><strong>Triangle</strong><span>A = 1/2 bh</span></div>
+          <div class="ref-item"><strong>Circle</strong><span>A = πr²</span></div>
+          <div class="ref-item"><strong>Trapezoid</strong><span>A = 1/2 (b1 + b2)h</span></div>
+        </div>
+      </div>
+      <div class="ref-sec">
+        <div class="ref-sec-title">Circumference and Volume</div>
+        <div class="ref-grid">
+          <div class="ref-item"><strong>Circle</strong><span>C = 2πr</span></div>
+          <div class="ref-item"><strong>Rectangular prism</strong><span>V = lwh</span></div>
+          <div class="ref-item"><strong>Cylinder</strong><span>V = πr²h</span></div>
+          <div class="ref-item"><strong>Sphere</strong><span>V = (4/3)πr³</span></div>
+          <div class="ref-item"><strong>Cone</strong><span>V = (1/3)πr²h</span></div>
+          <div class="ref-item"><strong>Pyramid</strong><span>V = (1/3)lwh</span></div>
+        </div>
+      </div>
+      <div class="ref-sec">
+        <div class="ref-sec-title">Pythagorean Theorem and Special Triangles</div>
+        <div class="ref-grid">
+          <div class="ref-item"><strong>Pythagorean theorem</strong><span>a² + b² = c²</span></div>
+          <div class="ref-item"><strong>30-60-90 triangle</strong><span>sides: x, x√3, 2x</span></div>
+          <div class="ref-item"><strong>45-45-90 triangle</strong><span>sides: x, x, x√2</span></div>
+        </div>
+      </div>
+      <div class="ref-sec">
+        <div class="ref-sec-title">Key Angle Facts</div>
+        <div class="ref-grid">
+          <div class="ref-item"><strong>Circle</strong><span>360 degrees</span></div>
+          <div class="ref-item"><strong>Triangle</strong><span>180 degrees</span></div>
+          <div class="ref-item"><strong>Straight line</strong><span>180 degrees</span></div>
+        </div>
+      </div>
+      <div class="ref-tip"><strong>Nehir's tip:</strong> The SAT gives you this sheet on every Math module. Students who have practised with it are much faster on test day than those seeing it for the first time. Know where each formula lives before you need it.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================= TEST SCREEN ============================= -->
+<div id="testScreen">
+  <header class="test-header">
+    <div class="th-left">
+      <div class="th-logo"><span class="a">Nehir</span><span class="b">lish</span></div>
+      <div class="th-divider"></div>
+      <div class="th-section" id="thSection">Reading and Writing</div>
+    </div>
+    <div class="th-center">
+      <span class="th-qnum" id="thQnum">1 of 10</span>
+      <div class="th-progress" id="thProgress"></div>
+    </div>
+    <div class="th-right">
+      <button class="th-tool-btn" id="hlToggleBtn" onclick="toggleHL()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+        Highlight
+      </button>
+      <button class="th-tool-btn" onclick="toggleCalc()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="2" width="16" height="20" rx="2"/><line x1="8" y1="6" x2="16" y2="6"/><line x1="8" y1="10" x2="16" y2="10"/><line x1="8" y1="14" x2="16" y2="14"/><line x1="8" y1="18" x2="12" y2="18"/></svg>
+        Calculator
+      </button>
+      <button class="th-tool-btn" onclick="openRef()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+        Reference
+      </button>
+    </div>
+  </header>
+
+  <div class="test-body">
+    <div class="passage-panel" id="passagePanel">
+      <div class="no-passage-msg">No passage for this question.</div>
+    </div>
+    <div class="question-panel" id="questionPanel"></div>
+  </div>
+
+  <footer class="test-footer">
+    <div class="tf-left" id="tfStatus">Select an answer to continue.</div>
+    <div class="tf-right">
+      <button class="tf-btn primary" id="nextFooterBtn" onclick="nextQuestion()" style="display:none">Next</button>
+    </div>
+  </footer>
+</div>
+
+<!-- ============================= SCORE SCREEN ============================= -->
+<div id="scoreScreen">
+  <nav class="score-nav">
+    <a href="index.html" class="landing-logo"><span class="a">Nehir</span><span class="b">lish</span><span class="a"> Academy</span></a>
+    <a href="courses.html" style="font-size:.85rem;font-weight:600;color:#888">← Courses</a>
+  </nav>
+  <div class="score-wrap">
+    <div class="score-top">
+      <div class="score-num" id="scoreNum"><span id="scoreVal">0</span>/10</div>
+      <div class="score-of">Your score</div>
+      <div class="score-subs">
+        <div class="score-sub rw"><div class="score-sub-n" id="scoreRW">0/5</div><div class="score-sub-l">Reading & Writing</div></div>
+        <div class="score-sub math"><div class="score-sub-n" id="scoreMath">0/5</div><div class="score-sub-l">Math</div></div>
+      </div>
+      <p class="score-msg" id="scoreMsg"></p>
+      <p id="saveStatus" style="font-size:.82rem;color:#999;margin:-8px 0 18px"></p>
+      <div class="score-cta-row">
+        <a href="index.html#contact" class="score-btn-p">Book a lesson with Nehir</a>
+        <button class="score-btn-o" onclick="restartTest()">Try again</button>
+      </div>
+    </div>
+  </div>
+  <div class="review-wrap">
+    <div class="review-title">Full review</div>
+    <div id="reviewContainer"></div>
+  </div>
+</div>
+
+<script>
+// ── SUPABASE (for logged-in score/progress tracking) ────────────────────────
+const SUPABASE_URL = 'https://mifuomqueiocuttlwihu.supabase.co';
+const SUPABASE_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1pZnVvbXF1ZWlvY3V0dGx3aWh1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODEzMzM3OTMsImV4cCI6MjA5NjkwOTc5M30.egHMl5D059fZ3JtAK3jDKT59482KfDPrhpDXZAtCxYE';
+const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON);
+let currentUserId = null;
+sb.auth.getSession().then(({data:{session}}) => { if(session) currentUserId = session.user.id; });
+
+// ── QUESTIONS ──────────────────────────────────────────────────────────────
+const Qs = [
+  {s:"rw",sl:"Reading and Writing",diff:"Easy",
+   passage:"Marine biologists have long studied the migratory patterns of humpback whales. These mammals travel thousands of miles each year between their feeding grounds in cold polar waters and their breeding grounds in warmer tropical seas. Recent satellite tracking has revealed that individual whales follow remarkably consistent routes year after year, suggesting that these routes are learned rather than instinctive.",
+   stem:"Which choice best states the main idea of the passage?",
+   opts:["Humpback whales prefer cold water over warm water.","Satellite technology has made marine biology easier.","Humpback whales follow learned migration routes consistently over time.","All whale species travel between polar and tropical waters."],
+   ans:2,
+   exp:"The passage describes how humpback whales travel consistent routes year after year, and that this is 'learned rather than instinctive.' Choice C captures this main idea. Choice A misrepresents the passage. Choice B is a minor detail. Choice D overgeneralises to 'all whale species,' which the passage never claims."},
+  {s:"rw",sl:"Reading and Writing",diff:"Medium",
+   passage:"The philosopher William James argued that emotions are not causes of physical reactions; they are the physical reactions themselves. When you see a bear and your heart races, James claimed, you do not feel afraid and then run; rather, you run and then, noticing your own running, feel afraid. This counterintuitive theory challenged the commonsense view that had dominated thinking about emotions for centuries.",
+   stem:"As used in the passage, 'counterintuitive' most nearly means:",
+   opts:["contrary to what one would naturally expect","supported by scientific evidence","difficult to understand without training","related to physical instincts"],
+   ans:0,
+   exp:"The passage says James's theory 'challenged the commonsense view,' meaning it went against what people naturally assumed. 'Counterintuitive' means going against intuition. Choice A matches precisely. Choice B is wrong because the passage does not say the theory has scientific support. Choice C confuses 'counterintuitive' with 'complex.' Choice D misreads 'intuitive' as 'instinctive.'"},
+  {s:"rw",sl:"Reading and Writing",diff:"Medium",
+   passage:null,
+   stem:"Which sentence uses a semicolon correctly?",
+   opts:["She studied all night; and passed the exam.","The results were surprising; the new treatment worked far better than expected.","He was tired; because he hadn't slept.","They arrived early; to get good seats."],
+   ans:1,
+   exp:"A semicolon correctly joins two independent clauses. In Choice B, both halves can stand alone as complete sentences, so the semicolon is correct. Choice A is wrong because you cannot use a semicolon before a coordinating conjunction like 'and.' Choices C and D are wrong because their second halves are dependent clauses, not independent ones."},
+  {s:"rw",sl:"Reading and Writing",diff:"Hard",
+   passage:"Historians have traditionally portrayed the Industrial Revolution as an unambiguous engine of progress: a period when technological innovation lifted living standards and created unprecedented prosperity. Revisionist scholars, however, point to the extensive documentary record of factory conditions, child labour, and urban squalor to argue that for the majority of working-class people, the early decades of industrialisation brought not prosperity but immiseration.",
+   stem:"The primary purpose of the second sentence is to:",
+   opts:["provide additional support for the traditional view of the Industrial Revolution","introduce a counterargument that complicates the traditional portrayal","explain why technological innovation leads to prosperity","describe the living conditions of factory owners during industrialisation"],
+   ans:1,
+   exp:"The passage uses 'however' to signal a contrast. The first sentence presents the traditional view (progress and prosperity); the second introduces the revisionist view (immiseration for most workers). Choice A is the opposite of what the sentence does. Choice C is about the traditional view. Choice D is wrong; the passage focuses on working-class people, not factory owners."},
+  {s:"rw",sl:"Reading and Writing",diff:"Hard",
+   passage:null,
+   stem:"Which of the following is the most precise and concise revision?\n\nOriginal: \"Due to the fact that the experiment produced results that were not expected, the researchers decided that it was necessary for them to conduct additional testing.\"",
+   opts:["Because the experiment produced unexpected results, the researchers decided to conduct additional testing.","The experiment produced results that the researchers did not expect, so they decided more testing was needed.","Since results from the experiment were not what was expected, additional testing was decided upon by the researchers.","The unexpected results of the experiment necessitated additional testing to be conducted by the researchers."],
+   ans:0,
+   exp:"Choice A is correct because it replaces 'due to the fact that' with 'because,' cuts 'results that were not expected' to 'unexpected results,' and removes 'it was necessary for them to.' Choice B is acceptable but less tight. Choice C uses weak passive voice. Choice D is awkward. The SAT rewards clarity and concision."},
+  {s:"math",sl:"Math",diff:"Easy",
+   passage:null,
+   stem:"If 3x + 7 = 22, what is the value of x?",
+   opts:["3","5","7","9"],
+   ans:1,
+   exp:"3x + 7 = 22\n3x = 15\nx = 5\n\nCheck: 3(5) + 7 = 22. Correct."},
+  {s:"math",sl:"Math",diff:"Easy",
+   passage:null,
+   stem:"A store sells notebooks for $3 each and pens for $1.50 each. Alicia buys 4 notebooks and 6 pens. What is the total cost?",
+   opts:["$18.00","$19.50","$21.00","$22.50"],
+   ans:2,
+   exp:"Notebooks: 4 x $3.00 = $12.00\nPens: 6 x $1.50 = $9.00\nTotal: $21.00\n\nA common mistake is multiplying pens by $1 instead of $1.50."},
+  {s:"math",sl:"Math",diff:"Medium",
+   passage:null,
+   stem:"The function f is defined by f(x) = 2x² - 4x + 1. What is the value of f(3)?",
+   opts:["5","7","9","11"],
+   ans:1,
+   exp:"f(3) = 2(3)² - 4(3) + 1\n= 2(9) - 12 + 1\n= 18 - 12 + 1\n= 7\n\nAlways apply the exponent before multiplying."},
+  {s:"math",sl:"Math",diff:"Medium",
+   passage:"A survey of 200 students found that 120 students play a sport, 80 students play a musical instrument, and 40 students do both.",
+   stem:"How many students do neither?",
+   opts:["20","40","60","80"],
+   ans:1,
+   exp:"Sport OR instrument = 120 + 80 - 40 = 160\n(Subtract 40 because those students are counted in both groups.)\n\nNeither = 200 - 160 = 40\n\nThis is a classic Venn diagram question. The key step is subtracting the overlap so you do not count it twice."},
+  {s:"math",sl:"Math",diff:"Hard",
+   passage:null,
+   stem:"In the xy-plane, line l passes through the points (2, 5) and (6, 13). Which of the following is an equation of a line perpendicular to l that passes through the point (4, 3)?",
+   opts:["y = 2x - 5","y = -1/2 x + 5","y = 1/2 x + 1","y = -2x + 11"],
+   ans:1,
+   exp:"Step 1: Slope of l = (13-5)/(6-2) = 8/4 = 2\nStep 2: Perpendicular slope = -1/2 (negative reciprocal)\nStep 3: Through (4,3) with slope -1/2:\ny - 3 = -1/2(x - 4)\ny = -1/2 x + 5\n\nPerpendicular slopes multiply to -1. Here: 2 x (-1/2) = -1."}
+];
+
+// ── STATE ──────────────────────────────────────────────────────────────────
+let cur=0, score=0, rwScore=0, mathScore=0, answers=[], answered=false;
+let hlMode=false, pendingRange=null, pendingPassageId=null;
+let notes={};
+let qStartTime=null, questionTimings=[]; // ms elapsed per question, parallel to `answers`
+
+// ── CALC DRAG ──────────────────────────────────────────────────────────────
+(function(){
+  const panel=document.getElementById('calcPanel');
+  const handle=document.getElementById('calcDragHandle');
+  let dragging=false, ox=0, oy=0;
+  handle.addEventListener('mousedown',e=>{
+    dragging=true; ox=e.clientX-panel.offsetLeft; oy=e.clientY-panel.offsetTop;
+    e.preventDefault();
+  });
+  document.addEventListener('mousemove',e=>{
+    if(!dragging)return;
+    const x=Math.max(0,Math.min(window.innerWidth-panel.offsetWidth, e.clientX-ox));
+    const y=Math.max(0,Math.min(window.innerHeight-panel.offsetHeight, e.clientY-oy));
+    panel.style.left=x+'px'; panel.style.top=y+'px'; panel.style.right='auto';
+  });
+  document.addEventListener('mouseup',()=>dragging=false);
+  // Touch drag
+  handle.addEventListener('touchstart',e=>{
+    dragging=true; const t=e.touches[0];
+    ox=t.clientX-panel.offsetLeft; oy=t.clientY-panel.offsetTop;
+  },{passive:true});
+  document.addEventListener('touchmove',e=>{
+    if(!dragging)return;
+    const t=e.touches[0];
+    const x=Math.max(0,Math.min(window.innerWidth-panel.offsetWidth, t.clientX-ox));
+    const y=Math.max(0,Math.min(window.innerHeight-panel.offsetHeight, t.clientY-oy));
+    panel.style.left=x+'px'; panel.style.top=y+'px'; panel.style.right='auto';
+  },{passive:true});
+  document.addEventListener('touchend',()=>dragging=false);
+})();
+
+// ── TEST FLOW ──────────────────────────────────────────────────────────────
+function startTest(){
+  document.getElementById('landingScreen').style.display='none';
+  document.getElementById('testScreen').style.display='flex';
+  buildProgress();
+  renderQ();
+}
+
+function buildProgress(){
+  const wrap=document.getElementById('thProgress');
+  wrap.innerHTML=Qs.map((_,i)=>`<div class="th-dot" id="dot${i}"></div>`).join('');
+}
+
+function updateProgress(){
+  Qs.forEach((_,i)=>{
+    const d=document.getElementById(`dot${i}`);
+    if(!d)return;
+    d.className='th-dot'+(i<cur?' done':i===cur?' current':'');
+  });
+  document.getElementById('thQnum').textContent=`${cur+1} of ${Qs.length}`;
+  document.getElementById('thSection').textContent=Qs[cur].sl;
+}
+
+function renderQ(){
+  const q=Qs[cur]; answered=false;
+  dismissHL(); closeNote();
+  updateProgress();
+  qStartTime = Date.now();
+  document.getElementById('tfStatus').textContent='Select an answer to continue.';
+  document.getElementById('nextFooterBtn').style.display='none';
+
+  // Passage panel
+  const pp=document.getElementById('passagePanel');
+  if(q.passage){
+    const pid=`p${cur}`;
+    pp.className='passage-panel';
+    const savedNotes=notes[pid]||[];
+    const notesHTML=savedNotes.length?`<div class="notes-below">${savedNotes.map(n=>`<div class="note-chip"><div class="note-chip-quoted">"${n.text.substring(0,55)}${n.text.length>55?'...':''}"</div><div class="note-chip-body">${n.note}</div></div>`).join('')}</div>`:'';
+    pp.innerHTML=`<div class="passage-label">Passage</div><div class="passage-hint">✏ Select text to highlight or add a note</div><div class="passage-text" id="${pid}" onmouseup="onTextUp(event,'${pid}')" ontouchend="onTextUp(event,'${pid}')">${q.passage}</div>${notesHTML}`;
+  } else {
+    pp.className='passage-panel no-passage';
+    pp.innerHTML='<div class="no-passage-msg">No passage for this question.</div>';
+  }
+
+  // Question panel
+  const L=['A','B','C','D'];
+  const qp=document.getElementById('questionPanel');
+  qp.innerHTML=`
+    <span class="q-section-tag ${q.s}">${q.sl} · ${q.diff}</span>
+    <div class="q-stem">${q.stem.replace(/\n/g,'<br>')}</div>
+    <div class="options" id="opts">
+      ${q.opts.map((o,i)=>`<button class="opt" onclick="pick(${i})" id="o${i}">
+        <div class="opt-letter-box">${L[i]}</div>
+        <div class="opt-text">${o}</div>
+      </button>`).join('')}
+    </div>
+    <div class="explanation-box" id="expBox">
+      <div class="explanation-head">Nehir's explanation</div>
+      <div class="explanation-body" id="expBody"></div>
+    </div>
+    <div class="next-row" id="nextRow">
+      <button class="next-btn" onclick="nextQuestion()">${cur<Qs.length-1?'Next question':'See results'}</button>
+    </div>`;
+}
+
+function pick(i){
+  if(answered)return;
+  answered=true;
+  const q=Qs[cur];
+  const timeSpentSec = qStartTime ? Math.max(0.5, (Date.now()-qStartTime)/1000) : 0;
+  questionTimings.push(timeSpentSec);
+  answers.push({i,correct:q.ans});
+  if(i===q.ans){score++;if(q.s==='rw')rwScore++;else mathScore++;}
+  const L=['A','B','C','D'];
+  Qs[cur].opts.forEach((_,j)=>{
+    const b=document.getElementById(`o${j}`);
+    b.disabled=true;
+    if(j===q.ans)b.classList.add('correct');
+    else if(j===i)b.classList.add('wrong');
+  });
+  document.getElementById('expBody').innerHTML=q.exp.replace(/\n/g,'<br>');
+  document.getElementById('expBox').classList.add('show');
+  document.getElementById('nextRow').classList.add('show');
+  document.getElementById('nextFooterBtn').style.display='block';
+  document.getElementById('tfStatus').textContent=i===q.ans?'Correct!' : `Incorrect. The answer was ${L[q.ans]}.`;
+}
+
+function nextQuestion(){
+  cur++;
+  if(cur>=Qs.length)showScore();
+  else renderQ();
+}
+
+function showScore(){
+  document.getElementById('testScreen').style.display='none';
+  document.getElementById('calcPanel').classList.remove('show');
+  document.getElementById('scoreScreen').style.display='block';
+  document.getElementById('scoreVal').textContent=score;
+  document.getElementById('scoreRW').textContent=`${rwScore}/5`;
+  document.getElementById('scoreMath').textContent=`${mathScore}/5`;
+  const msgs=["Every expert was once a beginner. This result shows exactly where to focus, and Nehir can help you get there fast.","Good start! There is real room to grow here, and that is exactly what Nehir's prep is designed for.","Solid work. Targeted practice on your weaker areas will push your score significantly higher.","Outstanding! You clearly have a strong foundation. A few sessions with Nehir could take you to a perfect score."];
+  document.getElementById('scoreMsg').textContent=score>=9?msgs[3]:score>=7?msgs[2]:score>=5?msgs[1]:msgs[0];
+  const L=['A','B','C','D'];
+  document.getElementById('reviewContainer').innerHTML=Qs.map((q,i)=>{
+    const a=answers[i]; const ok=a&&a.i===q.ans;
+    return `<div class="r-item"><div class="r-head"><div class="r-icon ${ok?'c':'w'}">${ok?'✓':'✗'}</div><div class="r-label">Q${i+1} · ${q.sl} · ${q.diff}</div></div><div class="r-ans">Your answer: ${a?L[a.i]:'--'} · Correct: ${L[q.ans]}</div><div class="r-exp">${q.exp.replace(/\n/g,'<br>')}</div></div>`;
+  }).join('');
+  window.scrollTo({top:0,behavior:'smooth'});
+  saveAttemptsToDashboard();
+}
+
+async function saveAttemptsToDashboard(){
+  const statusEl = document.getElementById('saveStatus');
+  if(!currentUserId){
+    if(statusEl) statusEl.innerHTML = 'Sign in to save this score to your dashboard. <a href="auth.html" style="color:#22d4c8;font-weight:600">Sign in →</a>';
+    return;
+  }
+  if(statusEl) statusEl.textContent = 'Saving to your dashboard…';
+  try{
+    // 1. Log each individual question attempt (raw data for the score-over-time chart)
+    const rows = Qs.map((q,i) => ({
+      student_id: currentUserId,
+      section_id: q.s === 'rw' ? 'sat-mini-rw' : 'sat-mini-math',
+      question_index: i,
+      correct: answers[i] ? answers[i].i === q.ans : false,
+      time_spent_seconds: questionTimings[i] || 0
+    }));
+    const { error: insertErr } = await sb.from('attempts').insert(rows);
+    if(insertErr) throw insertErr;
+
+    // 2. Update the rolling summary per section (rw and math tracked separately)
+    await upsertSectionProgress('sat-mini-rw', rwScore, 5, questionTimings.slice(0,5).reduce((s,t)=>s+t,0));
+    await upsertSectionProgress('sat-mini-math', mathScore, 5, questionTimings.slice(5,10).reduce((s,t)=>s+t,0));
+
+    if(statusEl) statusEl.innerHTML = '✓ Saved to your dashboard. <a href="dashboard.html" style="color:#22d4c8;font-weight:600">View progress →</a>';
+  }catch(err){
+    console.error('Failed to save attempt:', err);
+    if(statusEl) statusEl.textContent = "Couldn't save this attempt, but your results above are still valid.";
+  }
+}
+
+async function upsertSectionProgress(sectionId, newScore, newTotal, timeThisSession){
+  const { data: existing } = await sb
+    .from('section_progress')
+    .select('*')
+    .eq('student_id', currentUserId)
+    .eq('section_id', sectionId)
+    .maybeSingle();
+
+  if(!existing){
+    await sb.from('section_progress').insert({
+      student_id: currentUserId,
+      section_id: sectionId,
+      attempts_count: 1,
+      best_score: newScore,
+      best_score_total: newTotal,
+      total_time_seconds: timeThisSession,
+      last_attempted_at: new Date().toISOString()
+    });
+  } else {
+    await sb.from('section_progress').update({
+      attempts_count: existing.attempts_count + 1,
+      best_score: Math.max(existing.best_score, newScore),
+      best_score_total: newTotal,
+      total_time_seconds: Number(existing.total_time_seconds) + timeThisSession,
+      last_attempted_at: new Date().toISOString()
+    }).eq('student_id', currentUserId).eq('section_id', sectionId);
+  }
+}
+
+function restartTest(){
+  cur=0;score=0;rwScore=0;mathScore=0;answers=[];answered=false;notes={};hlMode=false;
+  questionTimings=[];qStartTime=null;
+  const statusEl=document.getElementById('saveStatus'); if(statusEl) statusEl.textContent='';
+  document.getElementById('scoreScreen').style.display='none';
+  document.getElementById('landingScreen').style.display='flex';
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+// ── CALCULATOR ─────────────────────────────────────────────────────────────
+function toggleCalc(){
+  const p=document.getElementById('calcPanel');
+  p.classList.toggle('show');
+}
+
+// ── REFERENCE ──────────────────────────────────────────────────────────────
+function openRef(){document.getElementById('refModal').classList.add('show');}
+function closeRef(){document.getElementById('refModal').classList.remove('show');}
+function closeRefOnOverlay(e){if(e.target===document.getElementById('refModal'))closeRef();}
+
+// ── HIGHLIGHT ──────────────────────────────────────────────────────────────
+function toggleHL(){
+  hlMode=!hlMode;
+  const btn=document.getElementById('hlToggleBtn');
+  btn.classList.toggle('active',hlMode);
+}
+
+function onTextUp(e, pid){
+  const sel=window.getSelection();
+  if(!sel||sel.isCollapsed||!sel.toString().trim())return;
+  if(sel.toString().trim().length<2)return;
+  pendingRange=sel.getRangeAt(0).cloneRange();
+  pendingPassageId=pid;
+  const rect=sel.getRangeAt(0).getBoundingClientRect();
+  const t=document.getElementById('hlTooltip');
+  t.style.top=(rect.top+window.scrollY-46)+'px';
+  t.style.left=Math.max(8,rect.left+rect.width/2-80)+'px';
+  t.classList.add('show');
+}
+
+function doHighlight(){
+  if(!pendingRange)return;
+  try{
+    const m=document.createElement('mark');m.className='nh';
+    pendingRange.surroundContents(m);
+  }catch(e){
+    try{const f=pendingRange.extractContents();const m=document.createElement('mark');m.className='nh';m.appendChild(f);pendingRange.insertNode(m);}catch(e2){}
+  }
+  window.getSelection().removeAllRanges();
+  dismissHL();
+}
+
+function doNote(){
+  doHighlight();
+  document.getElementById('noteTextarea').value='';
+  document.getElementById('notePopup').classList.add('show');
+  setTimeout(()=>document.getElementById('noteTextarea').focus(),80);
+}
+
+function saveNote(){
+  const txt=document.getElementById('noteTextarea').value.trim();
+  if(!txt){closeNote();return;}
+  const pid=pendingPassageId||`p${cur}`;
+  if(!notes[pid])notes[pid]=[];
+  const lastMark=document.querySelector(`#${pid} mark.nh:last-of-type`);
+  const text=lastMark?lastMark.textContent:'selected text';
+  notes[pid].push({text,note:txt});
+  let list=document.querySelector(`#${pid}`).closest('.passage-panel').querySelector('.notes-below');
+  if(!list){list=document.createElement('div');list.className='notes-below';document.querySelector(`#${pid}`).after(list);}
+  list.innerHTML=notes[pid].map(n=>`<div class="note-chip"><div class="note-chip-quoted">"${n.text.substring(0,55)}${n.text.length>55?'...':''}"</div><div class="note-chip-body">${n.note}</div></div>`).join('');
+  closeNote();
+}
+
+function closeNote(){document.getElementById('notePopup').classList.remove('show');}
+function dismissHL(){
+  document.getElementById('hlTooltip').classList.remove('show');
+  pendingRange=null;
+  window.getSelection()&&window.getSelection().removeAllRanges();
+}
+
+document.addEventListener('keydown',e=>{
+  if(e.key==='Escape'){closeRef();closeNote();dismissHL();}
+});
+</script>
+</body>
+</html>
